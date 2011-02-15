@@ -97,7 +97,12 @@
           </p>
         </div><!--alternate-sizes-->
       </div><!--metadata-->
-      
+      <div class="share-bar" 
+        tal:attributes="title view/filename;
+         public python:view.isPublic and 1 or 0;
+         href string:${view/siteInfo/url}/r/img/${view/imageId}">
+         &#160;
+       </div><!--share-bar-->
       <div id="scaled-image">
         <a href="#" title="Full sized image"
         tal:attributes="href view/fullImageURI;
@@ -105,11 +110,11 @@
           class="scaledImage" 
           tal:attributes="src view/scaledImageURI"/></a>
       </div>
-      <label for="linkurl">Link to this image</label>
-      <input readonly="0" type="text" id="linkurl"
-        tal:attributes="value string:${view/siteInfo/url}/r/img/${view/imageId}"/>
-        
     </div>
+    <tal:block metal:fill-slot="javascript">
+      <script type="text/javascript"
+        src="/++resource++sharebox-20100721.js">&#160;</script>
+    </tal:block>
   </body>
 </html>
 

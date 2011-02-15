@@ -2,9 +2,10 @@
 from zope.component import createObject
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implements
-from queries import FileQuery
+from Products.GSGroup.utils import is_public
 from gs.image.image import GSImage
 from gs.group.base.page import GroupPage
+from queries import FileQuery
 
 class GSImageView(GroupPage):
     def __init__(self, context, request):
@@ -22,6 +23,7 @@ class GSImageView(GroupPage):
         #   which have a ratio of 4:3.
         self.maxWidth = 432  # 24u on OGN
         self.maxHeight = 576 # 32u on OGN
+        self.isPublic = is_public(self.groupInfo.groupObj)
         
     @property
     def imageFile(self):
