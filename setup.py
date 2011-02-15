@@ -35,6 +35,7 @@ setup(name='gs.group.messages.image',
         'Products.XWFMailingListManager',
         'Products.GSGroup',
         'gs.group.base',
+        'gs.image',
         # -*- Extra requirements: -*-
     ],
     entry_points="""
