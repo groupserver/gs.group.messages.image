@@ -36,6 +36,7 @@ setup(name='gs.group.messages.image',
         'Products.GSGroup',
         'gs.group.base',
         'gs.image',
+        'gs.errormesg'
         # -*- Extra requirements: -*-
     ],
     entry_points="""

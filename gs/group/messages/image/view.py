@@ -1,12 +1,12 @@
 # coding=utf-8
 from zope.component import createObject
-from zope.publisher.interfaces import IPublishTraverse
+from zope.publisher.interfaces import IPublishTraverse, NotFound
 from zope.interface import implements
 from Products.GSGroup.utils import is_public
 from gs.image.image import GSImage
 from gs.group.base.page import GroupPage
 from queries import FileQuery
-from errors import NoIDError, NoFileError
+from errors import NoIDError
 
 class GSImageView(GroupPage):
     def __init__(self, context, request):
@@ -34,7 +34,7 @@ class GSImageView(GroupPage):
             fileLibrary = self.groupInfo.groupObj.files
             files = fileLibrary.find_files({'id': self.imageId})
             if len(files) < 1:
-                raise NoFileError('No file')
+                raise NotFound(self, self.imageId, self.request)
             
             self.__imageFile = files[0].getObject()
         assert self.__imageFile, 'Image file not set.'
