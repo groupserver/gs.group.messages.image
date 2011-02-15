@@ -7,6 +7,9 @@ from gs.errormesg.baseerror import BaseErrorPage
 class NoIDError(Exception):
     pass
 
+class NoFileError(Exception):
+    pass
+
 class ImageNoID(BaseErrorPage):
     fileName  = 'browser/templates/noid.pt'
     index = ZopeTwoPageTemplateFile(fileName)

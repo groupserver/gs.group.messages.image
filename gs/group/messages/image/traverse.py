@@ -4,7 +4,7 @@ from zope.component import getMultiAdapter
 from zope.location.interfaces import LocationError
 from zope.publisher.interfaces import NotFound
 from gs.group.base.page import GroupPage
-from errors import NoIDError
+from errors import NoIDError, NoFileError
 
 SUBSYSTEM = 'gs.group.messages.image'
 import logging
@@ -27,6 +27,11 @@ class GSImageTraversal(GroupPage):
         except NoIDError, n:
             retval = getMultiAdapter((self.context, self.request),
                         name="gsimage400")()
+        except NoFileError, f:
+            self.request.form['q'] = self.request.URL
+            self.request.form['r'] = self.request.get('HTTP_REFERER','')
+            retval = getMultiAdapter((self.context, self.request),
+                        name="new_not_found.html")()
         except Exception, e:
             self.request.form['q'] = self.request.URL
             self.request.form['m'] = format_exc()
