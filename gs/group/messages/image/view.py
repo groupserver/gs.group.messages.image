@@ -6,6 +6,7 @@ from Products.GSGroup.utils import is_public
 from gs.image.image import GSImage
 from gs.group.base.page import GroupPage
 from queries import FileQuery
+from errors import NoIDError
 
 class GSImageView(GroupPage):
     def __init__(self, context, request):
@@ -13,8 +14,9 @@ class GSImageView(GroupPage):
 
         self.imageId = request.get('imageId', None)
         if not self.imageId:
-            raise Exception('No ID')
-
+            raise NoIDError('No Image ID')
+        print '*** %s' % self.imageId
+        
         self._imageFile = self.__fileQuery = self.__fullImage = None 
         self.__imageMetadata = self.__authorInfo = None
         self.__nextImage = self.__prevImage = self.__topicImages = None

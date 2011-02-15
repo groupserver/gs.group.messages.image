@@ -2,6 +2,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
   xmlns:browser="http://namespaces.zope.org/browser">
   
+  <!-- Image Traversal -->
   <class class=".traverse.GSImageTraversal">
     <implements interface="zope.publisher.interfaces.IPublishTraverse"/>
   </class>
@@ -11,6 +12,7 @@
     class=".traverse.GSImageTraversal"
     permission="zope2.View" />
 
+  <!-- Image Page -->
   <class class=".view.GSImageView">
     <implements interface=".interfaces.IGSImageView"/>
   </class>
@@ -21,4 +23,11 @@
     template="browser/templates/view_image.pt" 
     permission="zope2.Public" />
 
+  <!-- 400 Error page -->
+  <browser:page 
+    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
+    name="gsimage400"
+    class=".errors.ImageNoID"
+    permission="zope2.Public" />
+    
 </configure>

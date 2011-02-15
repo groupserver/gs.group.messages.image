@@ -4,7 +4,7 @@ from zope.component import getMultiAdapter
 from zope.location.interfaces import LocationError
 from zope.publisher.interfaces import NotFound
 from gs.group.base.page import GroupPage
-#from error import NoIDError
+from errors import NoIDError
 
 SUBSYSTEM = 'gs.group.messages.image'
 import logging
@@ -24,7 +24,9 @@ class GSImageTraversal(GroupPage):
         try:
             retval = getMultiAdapter((self.context, self.request),
                         name="gsimage")()
-        # Todo: handle 400
+        except NoIDError, n:
+            retval = getMultiAdapter((self.context, self.request),
+                        name="gsimage400")()
         except Exception, e:
             self.request.form['q'] = self.request.URL
             self.request.form['m'] = format_exc()
