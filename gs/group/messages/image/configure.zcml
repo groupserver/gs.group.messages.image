@@ -29,5 +29,12 @@
     name="gsimage400"
     class=".errors.ImageNoID"
     permission="zope2.Public" />
-    
+  
+  <!--Help-->
+  <browser:viewlet name="gs-group-messages-image-help"
+    manager="gs.help.interfaces.IUserHelp"
+    template="browser/templates/help.pt"
+    permission="zope.Public"
+    weight="13" />
+  
 </configure>

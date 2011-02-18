@@ -1,0 +1,77 @@
+<div class="section" id="gs-group-messages-image">
+  <h3>Images</h3>
+  <p>An image posted to a group is shown on an 
+    <cite>image page</cite>.
+    This page provides a view of the posted image that is smaller.
+    Smaller images take less time to download, and view.
+    In this section the different parts of the page are detailed —
+    starting with the page title, the navigation bar, the share bar,
+    the image itself, and finally the information about the image.
+  </p>
+  <p>
+    <strong>The title</strong> of the image is shown at the top of the
+    page, just beneath the standard navigation elements.
+    The title comes from the name given to the file by the person
+    who posted it to the group.
+  </p>
+  <p>
+    <strong>The navigation bar</strong> is used to go between the
+    other images posted to the same topic, or the message that was
+    posted at the same time as the image.
+  </p>
+  <ul>
+      <li>Click <samp class="link">Previous image</samp> to see the 
+        image that was posted before the one you are currently 
+        viewing.</li>
+      <li>Click <samp class="link">Post</samp> to view the full post 
+        that was added to the group, including the message.
+      <li>Click <samp class="link">Next image</samp> to see the image
+        that was posted before the one you are viewing.</li>
+  </ul>
+  <p>
+    <strong>The share bar</strong> allows you to share the image with
+    others.
+  </p>
+  <p>
+    <strong>The image itself</strong> is possibly smaller than the 
+    image that was origianlly posted.
+    The image shown on the image page has a maximum size of <strong>598
+      by 407 pixels</strong> (dots).
+    <dt></dt>
+    <dd></dd>
+    If the original image was bigger than this then it will be reduced
+    in size to fit on the image page.
+    Clicking on the image, or <samp class="link">Full sized image</samp> 
+    will show the original image, at its original size.
+  </p>
+  <p>
+    Finally, <strong>additional information</strong> (metadata) about
+    the image is shown to the right of the page.
+    This will help you determine some of the 
+    <em class="wordasword">context</em> of the image.
+    The information is as follows.
+  </p>
+  <dl>
+    <dt>From</dt>
+    <dd>The name of the person who posted the image. 
+      Click name to view the pofile of the person.
+      If the person who posted the image has a profile photo added,
+      the this will be shown to the right of the metadata.</dd>
+    <dt>Name</dt>
+    <dd>The name of the file. 
+      To the left of the name is an icon, representing the type of
+      file.
+      Mouse over the icon to see the file-type in text.</dd>
+    <dt>Topic</dt>
+    <dd>The name of the topic the file was added to.
+      Click the name of the topic to view all posts made to the 
+      topic.</dd>
+    <dt>Group</dt>
+    <dd>The group the file was added to.
+      Click the name of the group to view
+      <a href="#gs-group-home">the group homepage.</a></dd>
+    <dt>Date</dt>
+    <dd>The date the file was posted.</dd>
+  </dl>
+</div>
+
