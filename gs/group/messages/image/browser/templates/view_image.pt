@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_layout/page">
+  metal:use-macro="context/@@groupserver_site_home_layout/page">
   <head>
     <title metal:fill-slot="title">
       <span tal:replace="view/filename"/> by
@@ -25,9 +25,7 @@
   </head>
   <body>
     <div metal:fill-slot="body" class="image">
-      <h1><code tal:content="view/filename">filename</code>
-        by
-        <span tal:content="view/authorInfo/name">An Author</span></h1>
+      <h1><code tal:content="view/filename">filename</code></h1>
       
       <ul id="navigation" class="inline-list navlinks">
         <li class="prevlink" 
@@ -54,6 +52,12 @@
             Image</span>
         </li>
       </ul>
+      <div class="share-bar" 
+        tal:attributes="title view/filename;
+         public python:view.isPublic and 1 or 0;
+         href string:${view/siteInfo/url}/r/img/${view/imageId}">
+         &#160;
+      </div><!--share-bar-->
       <div class="metadata"
         tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;
           t view/imageMetadata/mime_type;">
@@ -63,11 +67,20 @@
           <a href="#" class="fn"
             tal:attributes="href view/authorInfo/url"
             tal:content="view/authorInfo/name">An Author</a></div>
-        <div id="to"><strong>To:</strong>
+        <div id="filename">
+          <strong>Name:</strong>
+          <acronym href="#"
+            tal:define="icon python:t.replace('/','-').replace('.','-').strip()"
+            tal:attributes="class string:fileIcon ${icon};
+              title t;">&#160;</acronym>
+          <code class="fileName" 
+            tal:content="view/filename">file.name</code>
+        </div>
+        <div id="topic"><strong>Topic:</strong>
           <a href="#" class="topic"
             tal:attributes="href string:/r/topic/${view/topic/last_post_id}"
-            tal:content="view/topic/subject">A Topic</a>
-          &#8212;
+            tal:content="view/topic/subject">A Topic</a></div>
+        <div id="group"><strong>Group:</strong>
           <a href="#" class="group"
             tal:attributes="href view/groupInfo/url"
             tal:content="view/groupInfo/name">A Group</a>
@@ -77,39 +90,27 @@
           <span class="date"
             tal:content="python:munge_date(view.context, view.post['date'])">A Date</span>
         </div>
-        <div id="filename">
-          <strong>Name:</strong>
-          <span href="#"
-            tal:define="icon python:t.replace('/','-').replace('.','-').strip()"
-            tal:attributes="class string:fileIcon ${icon}">&#160;</span>
-          <code class="fileName" 
-            tal:content="view/filename">file.name</code>
-        </div>
-        <div id="alternate-sizes">
-          <p>
-            <a href="#"
-              tal:attributes="href view/fullImageURI">Full sized image:</a>
-            <span tal:content="view/fullImage/width">width</span> by
-            <span tal:content="view/fullImage/height">height</span> pixels
-            (<span class="size"
-              tal:define="s view/imageMetadata/file_size"
-              tal:content="python:u'%1.2fKB' % (s/1024.0)"/>)
-          </p>
-        </div><!--alternate-sizes-->
       </div><!--metadata-->
-      <div class="share-bar" 
-        tal:attributes="title view/filename;
-         public python:view.isPublic and 1 or 0;
-         href string:${view/siteInfo/url}/r/img/${view/imageId}">
-         &#160;
-       </div><!--share-bar-->
       <div id="scaled-image">
         <a href="#" title="Full sized image"
-        tal:attributes="href view/fullImageURI;
-          title string:Full sized image (${view/fullImage/width} by ${view/fullImage/height} pixels)"><img src="#" 
+          tal:define="s view/imageMetadata/file_size;
+            skb python:u'%1.2fKB' % (s/1024.0);"
+          tal:attributes="href view/fullImageURI;
+            title string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})"><img src="#" 
           class="scaledImage" 
           tal:attributes="src view/scaledImageURI"/></a>
       </div>
+      <div id="alternate-sizes">
+        <p>
+          <a href="#"
+            tal:attributes="href view/fullImageURI">Full sized image:</a>
+          <span tal:content="view/fullImage/width">width</span> by
+          <span tal:content="view/fullImage/height">height</span> pixels
+          (<span class="size"
+            tal:define="s view/imageMetadata/file_size"
+            tal:content="python:u'%1.2fKB' % (s/1024.0)"/>)
+        </p>
+      </div><!--alternate-sizes-->
     </div>
     <tal:block metal:fill-slot="javascript">
       <script type="text/javascript"
