@@ -10,6 +10,7 @@ from Products.XWFFileLibrary2.queries import FileQuery
 from Products.XWFFileLibrary2.error import Hidden
 from queries import ImageQuery
 from errors import NoIDError
+from metadata import Metadata, get_uri_for_scaled
 
 class GSImageView(GroupPage):
     def __init__(self, context, request):
@@ -31,6 +32,10 @@ class GSImageView(GroupPage):
         q = FileQuery(self.context, da)
         if q.file_hidden(imageId):
             raise Hidden(imageId)
+
+    @Lazy
+    def metadata(self):
+        return Metadata(self.context, self.imageId)
                 
     @Lazy
     def imageFile(self):
@@ -51,28 +56,13 @@ class GSImageView(GroupPage):
         return retval
     
     @Lazy
-    def fileQuery(self):
-        da = self.context.zsqlalchemy 
-        assert da, 'No data-adaptor found'
-        retval = ImageQuery(self.context, da)
-        assert retval
-        return retval
-
-    @Lazy
     def scaledImageURI(self):
         # http://wibble.com/groups/bar/files/f/abc123/resize/500/500/foo.jpg
-        retval = self.get_uri_for_scaled(self.imageId, self.maxWidth,
-                                         self.maxHeight, self.filename)
+        retval = get_uri_for_scaled(self.groupInfo, self.imageId, 
+                    self.maxWidth, self.maxHeight, self.filename)
         assert self.imageId in retval
         return retval
-    
-    def get_uri_for_scaled(self, imageId, maxWidth, maxHeight, filename):
-        retval = '%s/files/f/%s/resize/%s/%s/%s' % \
-          (self.groupInfo.url, imageId, maxWidth, maxHeight, filename)
-        # assert type(retval) == str
-        assert retval
-        return retval
-    
+
     @Lazy
     def fullImageURI(self):
         # http://wibble.com/groups/bar/files/f/abc123/foo.jpg
@@ -86,63 +76,5 @@ class GSImageView(GroupPage):
         # Inspried by the get_file method of the virtual file library.
         title = self.imageFile.getProperty('title', '')
         retval = self.imageFile.getProperty('filename', title).strip()
-        return retval
-
-    @Lazy
-    def topic(self):
-        retval = self.imageMetadata['topic']
-        assert type(retval) == dict
-        assert retval
-        return retval
-
-    @Lazy
-    def post(self):
-        retval = self.imageMetadata['post']
-        assert type(retval) == dict
-        assert retval
-        return retval
-        
-    @Lazy
-    def authorInfo(self):
-        authorId = self.post['author_id']
-        self.__authorInfo = createObject('groupserver.UserFromId',
-                                         self.context, authorId)
-        return retval
-        
-    @Lazy
-    def imageMetadata(self):
-        retval = self.fileQuery.file_metadata(self.imageId)
-        return retval
-
-    def images_in_topic(self):
-        if self.__topicImages == None:
-            topicId = self.imageMetadata['topic']['topic_id']
-            files = self.fileQuery.file_metadata_in_topic(topicId)
-            self.__topicImages = [f for f in files 
-                                  if 'image' in f['mime_type']]
-            for f in self.__topicImages:
-                iid = f['file_id']
-                fn = f['file_name']
-                f['icon_uri'] = self.get_uri_for_scaled(iid, 27, 27, fn)
-
-        retval = self.__topicImages
-        assert type(retval) == list
-        assert retval
-        return retval
-    
-    @Lazy
-    def prevImage(self):
-        files = self.images_in_topic()
-        ids = [f['file_id'] for f in files]
-        prevs = files[:ids.index(self.imageMetadata['file_id'])]
-        retval = prevs and prevs[-1] or None
-        return retval
-
-    @Lazy
-    def nextImage(self):
-        files = self.images_in_topic()
-        ids = [f['file_id'] for f in files]
-        nexts = files[ids.index(self.imageMetadata['file_id']) + 1:]
-        retval = nexts and nexts[0] or None
         return retval
 
