@@ -1,7 +1,7 @@
 # coding=utf-8
 from Products.XWFMailingListManager.queries import MessageQuery
 
-class FileQuery(MessageQuery):
+class ImageQuery(MessageQuery):
 
     def file_metadata(self, fileId):
         ft = self.fileTable

@@ -4,6 +4,7 @@ from zope.component import getMultiAdapter
 from zope.location.interfaces import LocationError
 from zope.publisher.interfaces import NotFound
 from gs.group.base.page import GroupPage
+from Products.XWFFileLibrary2.error import Hidden
 from errors import NoIDError
 
 SUBSYSTEM = 'gs.group.messages.image'
@@ -32,6 +33,9 @@ class GSImageTraversal(GroupPage):
             self.request.form['r'] = self.request.get('HTTP_REFERER','')
             retval = getMultiAdapter((self.context, self.request),
                         name="new_not_found.html")()
+        except Hidden, h:
+            retval = getMultiAdapter((self.context, self.request),
+                                        name="image_hidden.html")()
         except Exception, e:
             self.request.form['q'] = self.request.URL
             self.request.form['m'] = format_exc()

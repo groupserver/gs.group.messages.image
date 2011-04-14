@@ -29,7 +29,14 @@
     name="gsimage400"
     class=".errors.ImageNoID"
     permission="zope2.Public" />
-  
+    
+  <!-- The Gone (410) page -->
+  <browser:page 
+    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder"
+    name="image_hidden.html"
+    class=".hidden.ImageHidden" 
+    permission="zope2.Public" />
+
   <!--Help-->
   <browser:viewlet name="gs-group-messages-image-help"
     manager="gs.help.interfaces.IUserHelp"
