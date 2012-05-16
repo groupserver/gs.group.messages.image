@@ -19,6 +19,9 @@
       <link rel="next"
         tal:condition="view/metadata/nextURI"
         tal:attributes="href view/metadata/nextURI"/>
+      <link rel="bookmark" title="Group Homepage" href="#"
+        tal:attributes="title view/groupInfo/name;
+        href view/groupInfo/url" />
     </tal:block>
   </head>
   <body>
