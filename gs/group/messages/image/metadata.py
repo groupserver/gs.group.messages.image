@@ -4,8 +4,8 @@ from zope.cachedescriptors.property import Lazy
 from queries import ImageQuery
 
 def get_uri_for_scaled(groupInfo, imageId, maxWidth, maxHeight, filename):
-    retval = '%s/files/f/%s/resize/%s/%s/%s' % \
-      (groupInfo.url, imageId, maxWidth, maxHeight, filename)
+    retval = '/groups/%s/files/f/%s/resize/%s/%s/%s' % \
+      (groupInfo.id, imageId, maxWidth, maxHeight, filename)
     assert type(retval) in (str, unicode)
     assert retval
     return retval

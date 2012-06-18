@@ -66,8 +66,8 @@ class GSImageView(GroupPage):
     @Lazy
     def fullImageURI(self):
         # http://wibble.com/groups/bar/files/f/abc123/foo.jpg
-        retval = '%s/files/f/%s/%s' % \
-          (self.groupInfo.url, self.imageId, self.filename)
+        retval = '/groups/%s/files/f/%s/%s' % \
+          (self.groupInfo.id, self.imageId, self.filename)
         assert self.imageId in retval
         return retval
 
