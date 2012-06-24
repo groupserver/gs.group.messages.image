@@ -28,19 +28,8 @@ class GSImageTraversal(GroupPage):
         except NoIDError, n:
             retval = getMultiAdapter((self.context, self.request),
                         name="gsimage400")()
-        except NotFound, f:
-            self.request.form['q'] = self.request.URL
-            self.request.form['r'] = self.request.get('HTTP_REFERER','')
-            retval = getMultiAdapter((self.context, self.request),
-                        name="new_not_found.html")()
         except Hidden, h:
             retval = getMultiAdapter((self.context, self.request),
                                         name="image_hidden.html")()
-        except Exception, e:
-            self.request.form['q'] = self.request.URL
-            self.request.form['m'] = format_exc()
-            log.error(format_exc())
-            retval = getMultiAdapter((self.context, self.request),
-                        name="new_unexpected_error.html")()
         return retval
 

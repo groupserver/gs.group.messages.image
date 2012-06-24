@@ -24,9 +24,7 @@ class Metadata(object):
         
     @Lazy
     def fileQuery(self):
-        da = self.context.zsqlalchemy 
-        assert da, 'No data-adaptor found'
-        retval = ImageQuery(self.context, da)
+        retval = ImageQuery(self.context)
         assert retval
         return retval
 

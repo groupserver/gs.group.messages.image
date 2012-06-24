@@ -28,8 +28,7 @@ class GSImageView(GroupPage):
         self.maxHeight = 449 # 34.5u on OGN
         self.isPublic = is_public(self.groupInfo.groupObj)
 
-        da = self.context.zsqlalchemy
-        q = FileQuery(self.context, da)
+        q = FileQuery(self.context)
         if q.file_hidden(imageId):
             raise Hidden(imageId)
 

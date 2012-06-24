@@ -1,15 +1,16 @@
 # coding=utf-8
 from Products.XWFMailingListManager.queries import MessageQuery
+from gs.database import getSession
 
 class ImageQuery(MessageQuery):
-
     def file_metadata(self, fileId):
         ft = self.fileTable
         
         statement = ft.select()
         statement.append_whereclause(ft.c.file_id == fileId)
         
-        r = statement.execute()
+        session = getSession()
+        r = session.execute(statement)
         x = r.fetchone()
         retval = {'file_id':   x['file_id'],
                   'mime_type': x['mime_type'],
@@ -21,15 +22,15 @@ class ImageQuery(MessageQuery):
         return retval
 
     def file_metadata_in_topic(self, topicId):
-        assert type(topicId) == str,\
-          'topicId is a %s not a string' % type(topicId)
+        topicId = topicId.encode('utf-8')
+        
         ft = self.fileTable
         
-        statement = ft.select()
+        statement = ft.select(order_by=ft.c.date)
         statement.append_whereclause(ft.c.topic_id == topicId)
-        statement.order_by(ft.c.date)
-        
-        r = statement.execute()
+       
+        session = getSession() 
+        r = session.execute(statement)
         retval = [{'file_id':   x['file_id'],
                   'mime_type': x['mime_type'],
                   'file_name': x['file_name'],
