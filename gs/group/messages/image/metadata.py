@@ -3,6 +3,7 @@ from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
 from queries import ImageQuery
 
+
 def get_uri_for_scaled(groupInfo, imageId, maxWidth, maxHeight, filename):
     retval = '/groups/%s/files/f/%s/resize/%s/%s/%s' % \
       (groupInfo.id, imageId, maxWidth, maxHeight, filename)
@@ -10,18 +11,20 @@ def get_uri_for_scaled(groupInfo, imageId, maxWidth, maxHeight, filename):
     assert retval
     return retval
 
+
 def img_url(imgId):
     return '/r/img/%s' % imgId
+
 
 class Metadata(object):
     def __init__(self, context, imageId):
         self.context = context
-        self.imageId = imageId        
+        self.imageId = imageId
 
     @Lazy
     def groupInfo(self):
         return createObject('groupserver.GroupInfo', self.context)
-        
+
     @Lazy
     def fileQuery(self):
         retval = ImageQuery(self.context)
@@ -44,11 +47,11 @@ class Metadata(object):
     @Lazy
     def post(self):
         return self.imageMetadata['post']
-        
+
     @Lazy
     def postURI(self):
         return '/r/post/%s' % self.post['post_id']
-        
+
     @Lazy
     def images_in_topic(self):
         topicId = self.imageMetadata['topic']['topic_id']
@@ -59,7 +62,7 @@ class Metadata(object):
             fn = f['file_name']
             f['icon_uri'] = get_uri_for_scaled(self.groupInfo, iid, 27, 27, fn)
         return retval
-    
+
     @Lazy
     def prevImage(self):
         files = self.images_in_topic
@@ -71,7 +74,7 @@ class Metadata(object):
     @Lazy
     def prevURI(self):
         return (self.prevImage and img_url(self.prevImage['file_id'])) or ''
-        
+
     @Lazy
     def nextImage(self):
         files = self.images_in_topic
@@ -86,11 +89,10 @@ class Metadata(object):
 
     @Lazy
     def authorInfo(self):
-        retval = createObject('groupserver.UserFromId', self.context, 
+        retval = createObject('groupserver.UserFromId', self.context,
                     self.post['author_id'])
         return retval
 
     @Lazy
     def date(self):
         return self.post['date']
-
