@@ -46,33 +46,32 @@
 
     <div metal:fill-slot="body" class="gs-group-messages-image hmedia"
          tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;">
-      <h1>Image <code tal:content="view/filename">filename</code></h1>
-      
-      <ul id="navigation" class="inline-list navlinks">
-        <li class="prevlink">
+
+      <ul id="gs-group-messages-image-navigation" class="inline-list navlinks">
+        <li>
           <a tal:condition="view/metadata/prevURI" class="prev"
-            tal:attributes="href view/metadata/prevURI"
-            href="#"><img src="#" 
-                tal:attributes="src view/metadata/prevImage/icon_uri"/> 
-            Previous Image</a>
+             tal:attributes="href view/metadata/prevURI;
+                             title view/metadata/prevImage/file_name"
+             href="#">Prev</a>
           <span tal:condition="not:view/metadata/prevURI" 
-            class="prev">Previous Image</span>
+            class="prev">Prev</span>
         </li>
-        <li class="postLink">
+        <li>
           <a href="#" class="up"
-            tal:attributes="href view/metadata/postURI">Post in
-            <span tal:replace="view/metadata/topic/subject">A Topic</span></a>
+            tal:attributes="href view/metadata/postURI">Post</a>
         </li>
-        <li class="nextlink">
+        <li>
           <a tal:condition="view/metadata/nextURI" class="next"
-            tal:attributes="href view/metadata/nextURI"
-            href="#">Next Image
-            <img src="#" 
-              tal:attributes="src view/metadata/nextImage/icon_uri"/></a>
+             tal:attributes="href view/metadata/nextURI;
+                             title view/metadata/nextImage/file_name"
+             href="#">Next</a>
           <span tal:condition="not:view/metadata/nextURI" 
-            class="next">Next Image</span>
+                class="next">Next</span>
         </li>
       </ul>
+
+      <h1>Image <code tal:content="view/filename">filename</code></h1>
+      
       <div id="scaled-image">
         <div class="metadata" tal:define="t view/metadata/mime;">
           <div tal:define="user view/metadata/authorInfo/user"
@@ -91,7 +90,7 @@
               <span class="date"
                     tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
             </li>
-            <li>
+            <li id="gs-group-messages-image-share">
               <a class="gs-content-js-share" href="#"
                  tal:attributes="public python:view.isPublic and 1 or 0;
                                  href string:${view/siteInfo/url}/r/img/${view/imageId};
@@ -126,6 +125,18 @@
           jQuery('.gs-content-js-share').each(function () {
             shareWidget = GSShareBox(this, public);
             shareWidget.init();
+
+            var p = {icons: {primary: 'ui-icon-carat-1-w'}, text: true}
+            jQuery('.prev').button(p);
+            jQuery('span.prev').button("disable");
+
+            var up = {icons: { primary: "ui-icon-arrowthick-1-n" }, 
+                      text: false,};
+            jQuery('.up').button(up);
+
+            var n = {icons: { secondary: "ui-icon-carat-1-e" }, text: true,}
+            jQuery('.next').button(n);
+            jQuery('span.next').button("disable");
           });
         });
       </script>
