@@ -45,6 +45,16 @@ class Metadata(object):
         return self.imageMetadata['topic']
 
     @Lazy
+    def topicShortName(self):
+        ts = self.topic['subject']
+        if len(ts) < 4:
+            retval = self.topic['subject']
+        else:
+            retval = ' '.join(ts[:3]) + '&#8230;'
+        assert retval, 'There is no retval'
+        return retval
+
+    @Lazy
     def post(self):
         return self.imageMetadata['post']
 

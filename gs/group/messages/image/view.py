@@ -21,9 +21,9 @@ class GSImageView(GroupPage):
         self.__topicImages = None
 
         # --=mpj17=-- The image pages are optimised to view photographs,
-        #   which have a ratio of 4:3.
-        self.maxWidth = 598  # 46.0u on OGN TODO: gs.config
-        self.maxHeight = 449  # 34.5u on OGN TODO: gs.config
+        #   which have a ratio of 3:4.
+        self.maxWidth = 639  # u on OGN TODO: gs.config
+        self.maxHeight = 852  # 34.5u on OGN TODO: gs.config
         self.isPublic = is_public(self.groupInfo.groupObj)
 
         q = FileQuery(self.context)

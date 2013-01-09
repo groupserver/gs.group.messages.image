@@ -25,9 +25,28 @@
     </tal:block>
   </head>
   <body>
+    <ul metal:fill-slot="breadcrumb" >
+      <li><a tal:attributes="title string:${view/siteInfo/name} Homepage"
+             href="/" title="Home">&#8962;</a></li>
+      <li>
+        <a tal:attributes="href view/groupInfo/relativeURL">
+          <strong class="group" 
+                  tal:content="view/groupInfo/name">This group</strong>
+        </a>
+      </li>
+      <li><a class="topic" 
+             tal:attributes="title view/metadata/topicShortName;
+                             href string:/r/topic/${view/metadata/topic/last_post_id}"
+             tal:content="structure view/metadata/topic/subject">Topic</a></li>
+      <li><a class="post" 
+             tal:attributes="title string:Post in ${view/metadata/topic/subject};
+                             href view/metadata/postURI">Post</a></li>
+      <li>Image</li>
+    </ul>
+
     <div metal:fill-slot="body" class="gs-group-messages-image hmedia"
          tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;">
-      <h1><code tal:content="view/filename">filename</code></h1>
+      <h1>Image <code tal:content="view/filename">filename</code></h1>
       
       <ul id="navigation" class="inline-list navlinks">
         <li class="prevlink">
@@ -54,66 +73,62 @@
             class="next">Next Image</span>
         </li>
       </ul>
-      <div class="share-bar" 
-        tal:attributes="title view/filename;
-         public python:view.isPublic and 1 or 0;
-         href string:${view/siteInfo/url}/r/img/${view/imageId}">
-         &#160;
-      </div><!--share-bar-->
-
-      <div class="metadata" tal:define="t view/metadata/mime;">
-        <div tal:define="user view/metadata/authorInfo/user"
-          tal:replace="structure provider:groupserver.UserImage">
-          User image
-        </div>
-        <ul>
-          <li id="filename">
-            <strong>
-              <acronym 
-                tal:define="icon python:t.replace('/','-').replace('.','-').strip()"
-                tal:attributes="class string:fileIcon ${icon};
-                                title t;">&#160;</acronym>
-              <code class="fileName fn"
-                    tal:content="view/filename">file.name</code>
-            </strong>
-          </li>
-          <li id="from" class="contributor vcard">
-            <span class="minor">by</span>
-            <a href="#" class="url"
-               tal:attributes="href view/metadata/authorInfo/url">
-              <strong class="fn"
-                      tal:content="view/metadata/authorInfo/name">Me!</strong></a>
-          </li>
-          <li id="date">
-            <span class="minor">Posted at </span>
-            <span class="date"
-                  tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
-          </li>
-        </ul>
-      </div><!--metadata-->
       <div id="scaled-image">
-        <a href="#" title="Full sized image" class="enclosure"
-          tal:define="s view/metadata/imageMetadata/file_size;
-            skb python:u'%1.2fKB' % (s/1024.0);"
-          tal:attributes="href view/fullImageURI;
-            title string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})"><img src="#" class="scaledImage photo"
-          tal:attributes="src view/scaledImageURI"/></a>
+        <div class="metadata" tal:define="t view/metadata/mime;">
+          <div tal:define="user view/metadata/authorInfo/user"
+               tal:replace="structure provider:groupserver.UserImage">
+            User image
+          </div>
+          <ul>
+            <li id="from" class="contributor vcard">
+              <a href="#" class="url"
+                 tal:attributes="href view/metadata/authorInfo/url">
+                <strong class="fn"
+                        tal:content="view/metadata/authorInfo/name">Me!</strong></a>
+            </li>
+            <li id="date">
+              <span class="minor">Posted at </span>
+              <span class="date"
+                    tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
+            </li>
+            <li>
+              <a class="gs-content-js-share" href="#"
+                 tal:attributes="public python:view.isPublic and 1 or 0;
+                                 href string:${view/siteInfo/url}/r/img/${view/imageId};
+                                 title view/filename;">Share</a>
+            </li>
+          </ul>
+        </div><!--metadata-->
+        <div class="enclosure"
+             tal:define="s view/metadata/imageMetadata/file_size;
+                         skb python:u'%1.2fKB' % (s/1024.0);
+                         t string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})">
+          <a href="#" title="Full sized image" 
+             tal:attributes="href view/fullImageURI; title t">
+            <img src="#" class="scaledImage photo"
+                 tal:attributes="src view/scaledImageURI"/>
+          </a>
+          <p>
+            <a href="#"
+               tal:attributes="href view/fullImageURI"
+               tal:content="t">Size</a>
+          </p>
+        </div>
       </div>
-      <div id="alternate-sizes">
-        <p>
-          <a href="#"
-            tal:attributes="href view/fullImageURI">Full sized image:</a>
-          <span tal:content="view/fullImage/width">width</span> by
-          <span tal:content="view/fullImage/height">height</span> pixels
-          (<span class="size"
-            tal:define="s view/metadata/imageMetadata/file_size"
-            tal:content="python:u'%1.2fKB' % (s/1024.0)"/>)
-        </p>
-      </div><!--alternate-sizes-->
     </div>
     <tal:block metal:fill-slot="javascript">
       <script type="text/javascript"
-        src="/++resource++sharebox-20100721.js">&#160;</script>
+              src="/++resource++sharebox-20121213.js">&#160;</script>
+      <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function(){
+          var public = true;
+          jQuery('.gs-content-js-share').each(function () {
+            shareWidget = GSShareBox(this, public);
+            shareWidget.init();
+          });
+        });
+      </script>
     </tal:block>
   </body>
 </html>
