@@ -4,11 +4,11 @@
   metal:use-macro="context/@@groupserver_site_home_layout/page">
   <head>
     <title metal:fill-slot="title">
-      <span tal:replace="view/filename"/> by
-      <span tal:replace="view/metadata/authorInfo/name"/>:
-      <span tal:replace="view/metadata/topic/subject"/>:
-      <span tal:replace="view/groupInfo/name"/>:
-      <span tal:replace="view/siteInfo/name"/>
+      <tal:block replace="view/filename"/> by
+      <tal:block replace="view/metadata/authorInfo/name"/>:
+      <tal:block replace="view/metadata/topic/subject"/>:
+      <tal:block replace="view/groupInfo/name"/>:
+      <tal:block replace="view/siteInfo/name"/>
     </title>
     <tal:block metal:fill-slot="metadata">
       <link rel="prev" 
@@ -25,7 +25,8 @@
     </tal:block>
   </head>
   <body>
-    <div metal:fill-slot="body" class="image">
+    <div metal:fill-slot="body" class="gs-group-messages-image hmedia"
+         tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;">
       <h1><code tal:content="view/filename">filename</code></h1>
       
       <ul id="navigation" class="inline-list navlinks">
@@ -59,46 +60,53 @@
          href string:${view/siteInfo/url}/r/img/${view/imageId}">
          &#160;
       </div><!--share-bar-->
-      <div class="metadata"
-        tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;
-          t view/metadata/mime;">
+
+      <div class="metadata" tal:define="t view/metadata/mime;">
         <div tal:define="user view/metadata/authorInfo/user"
-          tal:replace="structure provider:groupserver.UserImage" />
-        <div id="from"><strong>From:</strong>
-          <a href="#" class="fn"
-            tal:attributes="href view/metadata/authorInfo/url"
-            tal:content="view/metadata/authorInfo/name">An Author</a></div>
-        <div id="filename">
-          <strong>Name:</strong>
-          <acronym href="#"
-            tal:define="icon python:t.replace('/','-').replace('.','-').strip()"
-            tal:attributes="class string:fileIcon ${icon};
-              title t;">&#160;</acronym>
-          <code class="fileName" 
-            tal:content="view/filename">file.name</code>
+          tal:replace="structure provider:groupserver.UserImage">
+          User image
         </div>
-        <div id="topic"><strong>Topic:</strong>
-          <a href="#" class="topic"
-            tal:attributes="href string:/r/topic/${view/metadata/topic/last_post_id}"
-            tal:content="view/metadata/topic/subject">A Topic</a></div>
-        <div id="group"><strong>Group:</strong>
-          <a href="#" class="group"
-            tal:attributes="href view/groupInfo/url"
-            tal:content="view/groupInfo/name">A Group</a>
-        </div>
-        <div id="date">
-          <strong>Date:</strong>
-          <span class="date"
-            tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
-        </div>
+        <ul>
+          <li id="from" class="contributor vcard">
+            <strong>From:</strong>
+            <a href="#" class="url fn"
+               tal:attributes="href view/metadata/authorInfo/url"
+               tal:content="view/metadata/authorInfo/name">An Author</a>
+          </li>
+          <li id="filename">
+            <strong>Name:</strong>
+            <acronym 
+                     tal:define="icon python:t.replace('/','-').replace('.','-').strip()"
+                     tal:attributes="class string:fileIcon ${icon};
+                                     title t;">&#160;</acronym>
+            <code class="fileName fn"
+                  tal:content="view/filename">file.name</code>
+          </li>
+          <li id="topic">
+            <strong>Topic:</strong>
+            <a href="#" class="topic"
+               tal:attributes="href string:/r/topic/${view/metadata/topic/last_post_id}"
+               tal:content="view/metadata/topic/subject">A Topic</a>
+          </li>
+          <li id="group">
+            <strong>Group:</strong>
+            <a href="#" class="group"
+               tal:attributes="href view/groupInfo/url"
+               tal:content="view/groupInfo/name">A Group</a>
+          </li>
+          <li id="date">
+            <strong>Date:</strong>
+            <span class="date"
+                  tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
+          </li>
+        </ul>
       </div><!--metadata-->
       <div id="scaled-image">
-        <a href="#" title="Full sized image"
+        <a href="#" title="Full sized image" class="enclosure"
           tal:define="s view/metadata/imageMetadata/file_size;
             skb python:u'%1.2fKB' % (s/1024.0);"
           tal:attributes="href view/fullImageURI;
-            title string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})"><img src="#" 
-          class="scaledImage" 
+            title string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})"><img src="#" class="scaledImage photo"
           tal:attributes="src view/scaledImageURI"/></a>
       </div>
       <div id="alternate-sizes">
