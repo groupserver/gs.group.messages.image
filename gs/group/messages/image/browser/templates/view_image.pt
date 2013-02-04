@@ -79,10 +79,9 @@
                 <strong class="fn"
                         tal:content="view/metadata/authorInfo/name">Me!</strong></a>
             </li>
-            <li id="date">
-              <span class="muted">Posted at </span>
-              <strong class="date"
-                    tal:content="python:munge_date(view.context, view.metadata.date)">A Date</strong>
+            <li id="date" class="muted">Posted at
+              <em class="date"
+                  tal:content="python:munge_date(view.context, view.metadata.date)">A Date</em>
             </li>
           </ul>
           <div class="gs-group-messages-image-buttons btn-toolbar" 
