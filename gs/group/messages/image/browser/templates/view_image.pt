@@ -21,7 +21,7 @@
         tal:attributes="href view/metadata/nextURI"/>
       <link rel="bookmark" title="Group Homepage" href="#"
         tal:attributes="title view/groupInfo/name;
-        href view/groupInfo/url" />
+        href string:${view/groupInfo/relativeURL}/" />
     </tal:block>
   </head>
   <body>
@@ -29,7 +29,7 @@
       <li><a tal:attributes="title string:${view/siteInfo/name} Homepage"
              href="/" title="Home">&#8962;</a></li>
       <li>
-        <a tal:attributes="href view/groupInfo/relativeURL">
+        <a tal:attributes="href string:${view/groupInfo/relativeURL}/">
           <strong class="group" 
                   tal:content="view/groupInfo/name">This group</strong>
         </a>
@@ -47,28 +47,22 @@
     <div metal:fill-slot="body" class="gs-group-messages-image hmedia"
          tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;">
 
-      <ul id="gs-group-messages-image-navigation" class="inline-list navlinks">
-        <li>
-          <a tal:condition="view/metadata/prevURI" class="prev"
-             tal:attributes="href view/metadata/prevURI;
-                             title view/metadata/prevImage/file_name"
-             href="#">Prev</a>
-          <span tal:condition="not:view/metadata/prevURI" 
-            class="prev">Prev</span>
-        </li>
-        <li>
-          <a href="#" class="up"
-            tal:attributes="href view/metadata/postURI">Post</a>
-        </li>
-        <li>
-          <a tal:condition="view/metadata/nextURI" class="next"
-             tal:attributes="href view/metadata/nextURI;
-                             title view/metadata/nextImage/file_name"
-             href="#">Next</a>
-          <span tal:condition="not:view/metadata/nextURI" 
-                class="next">Next</span>
-        </li>
-      </ul>
+      <div class="gs-group-messages-image-navlinks btn-group" role="navigation">
+        <a tal:condition="view/metadata/prevURI" class="btn"
+           tal:attributes="href view/metadata/prevURI;
+                           title view/metadata/prevImage/file_name"
+           href="#">Prev</a>
+        <span tal:condition="not:view/metadata/prevURI" 
+              class="btn disabled">Prev</span>
+        <a href="#" class="btn"
+           tal:attributes="href view/metadata/postURI">Post</a>
+        <a tal:condition="view/metadata/nextURI" class="btn"
+           tal:attributes="href view/metadata/nextURI;
+                           title view/metadata/nextImage/file_name"
+           href="#">Next</a>
+        <span tal:condition="not:view/metadata/nextURI" 
+              class="btn disabled">Next</span>
+      </div><!--gs-group-messages-image-navlinks-->
 
       <h1>Image <code tal:content="view/filename">filename</code></h1>
       
@@ -86,17 +80,19 @@
                         tal:content="view/metadata/authorInfo/name">Me!</strong></a>
             </li>
             <li id="date">
-              <span class="minor">Posted at </span>
-              <span class="date"
-                    tal:content="python:munge_date(view.context, view.metadata.date)">A Date</span>
-            </li>
-            <li id="gs-group-messages-image-share">
-              <a class="gs-content-js-share" href="#"
-                 tal:attributes="public python:view.isPublic and 1 or 0;
-                                 href string:${view/siteInfo/url}/r/img/${view/imageId};
-                                 title view/filename;">Share</a>
+              <span class="muted">Posted at </span>
+              <strong class="date"
+                    tal:content="python:munge_date(view.context, view.metadata.date)">A Date</strong>
             </li>
           </ul>
+          <div class="gs-group-messages-image-buttons btn-toolbar" 
+               role="toolbar" aria-label="Image Actions">
+            <a class="gs-content-js-share btn btn-small" role="button" 
+               aria-haspopup="true"
+               tal:attributes="public python:view.isPublic and 1 or 0;
+                               href string:${view/siteInfo/url}/r/img/${view/imageId};
+                               title view/filename;">Share</a>
+          </div><!--gs-group-messages-image-buttons-->
         </div><!--metadata-->
         <div class="enclosure"
              tal:define="s view/metadata/imageMetadata/file_size;
@@ -121,22 +117,10 @@
       <script type="text/javascript">
         jQuery.noConflict();
         jQuery(document).ready(function(){
-          var public = true;
-          jQuery('.gs-content-js-share').each(function () {
+            var public = true;
+            jQuery('.gs-content-js-share').each(function () {
             shareWidget = GSShareBox(this, public);
             shareWidget.init();
-
-            var p = {icons: {primary: 'ui-icon-carat-1-w'}, text: true}
-            jQuery('.prev').button(p);
-            jQuery('span.prev').button("disable");
-
-            var up = {icons: { primary: "ui-icon-arrowthick-1-n" }, 
-                      text: false,};
-            jQuery('.up').button(up);
-
-            var n = {icons: { secondary: "ui-icon-carat-1-e" }, text: true,}
-            jQuery('.next').button(n);
-            jQuery('span.next').button("disable");
           });
         });
       </script>
