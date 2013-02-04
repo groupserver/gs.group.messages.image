@@ -21,6 +21,6 @@ class ImageNoID(BaseErrorPage):
         contentType = 'text/html; charset=UTF-8'
         self.request.response.setHeader('Content-Type', contentType)
         # Return 400: Bad Request
-        self.request.response.setStatus(400, lock=True)
+        self.request.response.setStatus(400)
         return self.index(self, *args, **kw)
 
