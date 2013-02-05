@@ -43,10 +43,8 @@
                              href view/metadata/postURI">Post</a></li>
       <li>Image</li>
     </ul>
-
     <div metal:fill-slot="body" class="gs-group-messages-image hmedia"
          tal:define="munge_date python:modules['Products.XWFCore.XWFUtils'].munge_date;">
-
       <div class="gs-group-messages-image-navlinks btn-group" role="navigation">
         <a tal:condition="view/metadata/prevURI" class="btn"
            tal:attributes="href view/metadata/prevURI;
@@ -64,9 +62,10 @@
               class="btn disabled">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
 
-      <h1>Image <code tal:content="view/filename">filename</code></h1>
+      <h1>Image <code class="fn" 
+                      tal:content="view/filename">filename</code></h1>
       
-      <div id="scaled-image">
+      <div class="scaled-image">
         <div class="metadata" tal:define="t view/metadata/mime;">
           <div tal:define="user view/metadata/authorInfo/user"
                tal:replace="structure provider:groupserver.UserImage">
@@ -93,7 +92,7 @@
                                title view/filename;">Share</a>
           </div><!--gs-group-messages-image-buttons-->
         </div><!--metadata-->
-        <div class="enclosure"
+        <div class="preview" 
              tal:define="s view/metadata/imageMetadata/file_size;
                          skb python:u'%1.2fKB' % (s/1024.0);
                          t string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})">
@@ -102,14 +101,30 @@
             <img src="#" class="scaledImage photo"
                  tal:attributes="src view/scaledImageURI"/>
           </a>
-          <p>
+          <p class="enclosure">
             <a href="#"
                tal:attributes="href view/fullImageURI"
                tal:content="t">Size</a>
           </p>
-        </div>
-      </div>
-    </div>
+        </div><!--preview-->
+      </div><!--scaledImage-->
+      <div class="gs-group-messages-image-navlinks btn-group" role="navigation">
+        <a tal:condition="view/metadata/prevURI" class="btn"
+           tal:attributes="href view/metadata/prevURI;
+                           title view/metadata/prevImage/file_name"
+           href="#">Prev</a>
+        <span tal:condition="not:view/metadata/prevURI" 
+              class="btn disabled">Prev</span>
+        <a href="#" class="btn"
+           tal:attributes="href view/metadata/postURI">Post</a>
+        <a tal:condition="view/metadata/nextURI" class="btn"
+           tal:attributes="href view/metadata/nextURI;
+                           title view/metadata/nextImage/file_name"
+           href="#">Next</a>
+        <span tal:condition="not:view/metadata/nextURI" 
+              class="btn disabled">Next</span>
+      </div><!--gs-group-messages-image-navlinks-->
+    </div><!--gs-group-messages-image-->
     <tal:block metal:fill-slot="javascript">
       <script type="text/javascript"
               src="/++resource++sharebox-20121213.js">&#160;</script>
