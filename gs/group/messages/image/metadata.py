@@ -60,7 +60,9 @@ class Metadata(object):
 
     @Lazy
     def postURI(self):
-        return '/r/post/%s' % self.post['post_id']
+        u = '{0}/messages/post/{1}' 
+        retval = u.format(self.groupInfo.relativeURL, self.post['post_id'])
+        return retval
 
     @Lazy
     def images_in_topic(self):
