@@ -125,20 +125,9 @@
               class="btn disabled">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
     </div><!--gs-group-messages-image-->
-    <tal:block metal:fill-slot="javascript">
-      <script type="text/javascript"
-              src="/++resource++sharebox-20121213.js">&#160;</script>
-      <script type="text/javascript">
-        jQuery.noConflict();
-        jQuery(document).ready(function(){
-            var public = true;
-            jQuery('.gs-content-js-share').each(function () {
-            shareWidget = GSShareBox(this, public);
-            shareWidget.init();
-          });
-        });
-      </script>
-    </tal:block>
+    <script type="text/javascript" metal:fill-slot="javascript"
+            src="/++resource++gs-group-messages-image-20130305.js"
+            defer="true">&#160;</script>
   </body>
 </html>
 

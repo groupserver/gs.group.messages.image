@@ -23,6 +23,10 @@
     template="browser/templates/view_image.pt" 
     permission="zope2.Public" />
 
+  <browser:resource
+     name="gs-group-messages-image-20130305.js"
+     file="browser/javascript/image.js" />
+
   <!-- 400 Error page -->
   <browser:page 
     for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
