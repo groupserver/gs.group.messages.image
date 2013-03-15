@@ -38,8 +38,8 @@ class ImageContentProvider(GroupContentProvider):
         return retval
 
     def get_resize_needed(self):
-        retval = ((self.width < self.image.width)
-                    or (self.height) < self.image.height)
+        retval = ((int(self.width) < self.image.width) or
+                    (int(self.height) < self.image.height))
         return retval
 
     def get_should_embed(self):
@@ -50,7 +50,9 @@ class ImageContentProvider(GroupContentProvider):
 
     def get_final_size(self):
         if self.resizeNeeded:
-            smallImage = self.image.get_resized(self.width, self.height)
+            w = int(self.width)
+            h = int(self.height)
+            smallImage = self.image.get_resized(w, h)
             retval = smallImage.getImageSize()
         else:
             retval = self.image.getImageSize()
@@ -72,7 +74,9 @@ class ImageContentProvider(GroupContentProvider):
         return retval
 
     def embedded_image(self):
-        smallImage = self.image.get_resized(self.width, self.height)
+        w = int(self.width)
+        h = int(self.height)
+        smallImage = self.image.get_resized(w, h)
         d = b64encode(smallImage.data)
         r = 'data:{mediatype};base64,{data}'
         retval = r.format(mediatype=smallImage.contentType, data=d)
