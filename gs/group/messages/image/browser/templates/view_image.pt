@@ -67,8 +67,8 @@
       
       <div class="scaled-image">
         <div class="metadata" tal:define="t view/metadata/mime;">
-          <div tal:define="user view/metadata/authorInfo/user"
-               tal:replace="structure provider:groupserver.UserImage">
+          <div tal:define="user view/metadata/authorInfo/user; size string:50;"
+               tal:replace="structure provider:groupserver.SquareUserImage">
             User image
           </div>
           <ul>
