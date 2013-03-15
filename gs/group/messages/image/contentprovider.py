@@ -20,66 +20,55 @@ class ImageContentProvider(GroupContentProvider):
         self.updated = True
         self.pageTemplate = PageTemplateFile(self.pageTemplateFileName)
 
-        self.image = self.get_image()
-        self.resizeNeeded = self.get_resize_needed()
-        self.s = [int(d) for d in (self.width, self.height)]
-        self.shouldEmbed = self.get_should_embed()
         self.finalSize = self.get_final_size()
         self.finalWidth = self.finalSize[0]
         self.finalHeight = self.finalSize[1]
-
-    def get_image(self):
-        virtualFileArchive = getattr(self.context, 'files')
-        image = virtualFileArchive.get_file_by_id(self.fileId)
-        if image is None:
-            raise NotFound(virtualFileArchive, self.fileId, self.request)
-        data = str(image)
-        retval = GSImage(data)
-        return retval
-
-    def get_resize_needed(self):
-        retval = ((int(self.width) < self.image.width) or
-                    (int(self.height) < self.image.height))
-        return retval
-
-    def get_should_embed(self):
-        m1 = max(self.image.getImageSize())
-        m2 = max(self.s)
-        retval = min((m1, m2)) < 40
-        return retval
-
-    def get_final_size(self):
-        if self.resizeNeeded:
-            w = int(self.width)
-            h = int(self.height)
-            smallImage = self.image.get_resized(w, h)
-            retval = smallImage.getImageSize()
-        else:
-            retval = self.image.getImageSize()
-        return retval
+        self.imageUrl = self.get_image_url()
+        self.image = self.smallImage if self.resizeNeeded else self.origImg
 
     def render(self):
         if not self.updated:
             raise UpdateNotCalled
         return self.pageTemplate(view=self)
 
-    @Lazy
-    def imageUrl(self):
-        if self.shouldEmbed:
-            retval = self.embedded_image()
-        elif self.resizeNeeded:
-            retval = self.resize_link()
+    def get_final_size(self):
+        if self.resizeNeeded:
+            retval = self.smallImage.getImageSize()
         else:
-            retval = self.file_link()
+            retval = self.origImg.getImageSize()
+        return retval
+
+    @Lazy
+    def resizeNeeded(self):
+        retval = ((int(self.width) < self.origImg.width) or
+                    (int(self.height) < self.origImg.height))
+        return retval
+
+    @Lazy
+    def origImg(self):
+        virtualFileArchive = getattr(self.context, 'files')
+        image = virtualFileArchive.get_file_by_id(self.fileId)
+        if image is None:
+            raise NotFound(virtualFileArchive, self.fileId, self.request)
+        data = str(image)
+        retval = GSImage(data)
+        assert retval, 'There is no image'
+        return retval
+
+    @Lazy
+    def smallImage(self):
+        if self.resizeNeeded:
+            w = int(self.width)
+            h = int(self.height)
+            retval = self.origImg.get_resized(w, h)
+        else:
+            retval = self.origImg
         return retval
 
     def embedded_image(self):
-        w = int(self.width)
-        h = int(self.height)
-        smallImage = self.image.get_resized(w, h)
-        d = b64encode(smallImage.data)
+        d = b64encode(self.smallImage.data)
         r = 'data:{mediatype};base64,{data}'
-        retval = r.format(mediatype=smallImage.contentType, data=d)
+        retval = r.format(mediatype=self.smallImage.contentType, data=d)
         return retval
 
     def file_link(self):
@@ -91,4 +80,13 @@ class ImageContentProvider(GroupContentProvider):
         r = '{fileLink}/resize/{width}/{height}'
         retval = r.format(fileLink=self.file_link(), width=self.width,
                             height=self.height)
+        return retval
+
+    def get_image_url(self):
+        if self.smallImage.getSize() < 1023:
+            retval = self.embedded_image()
+        elif self.resizeNeeded:
+            retval = self.resize_link()
+        else:
+            retval = self.file_link()
         return retval
