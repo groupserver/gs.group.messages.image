@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from zope.publisher.interfaces import NotFound
 from zope.cachedescriptors.property import Lazy
 from Products.GSGroup.utils import is_public
 from gs.image.image import GSImage
@@ -24,7 +23,7 @@ class GSImageView(GroupPage):
         self.maxHeight = 690  # 34.5u on OGN TODO: gs.config
         self.isPublic = is_public(self.groupInfo.groupObj)
 
-        q = FileQuery(self.context)
+        q = FileQuery()
         if q.file_hidden(imageId):
             raise Hidden(imageId)
 
@@ -37,16 +36,14 @@ class GSImageView(GroupPage):
         assert hasattr(self.groupInfo.groupObj, 'files'), \
           'No "files" in %s (%s)' % (self.groupInfo.name, self.groupInfo.id)
         fileLibrary = self.groupInfo.groupObj.files
-        files = fileLibrary.find_files({'id': self.imageId})
-        if len(files) < 1:
-            raise NotFound(self, self.imageId, self.request)
-        retval = files[0].getObject()
+        retval = fileLibrary.get_file_by_id(self.imageId)
         assert retval, 'Image file not set.'
         return retval
 
     @Lazy
     def fullImage(self):
-        retval = GSImage(self.imageFile.data)
+        data = str(self.imageFile)
+        retval = GSImage(data)
         assert retval
         return retval
 
@@ -68,7 +65,5 @@ class GSImageView(GroupPage):
 
     @Lazy
     def filename(self):
-        # Inspried by the get_file method of the virtual file library.
-        title = self.imageFile.getProperty('title', '')
-        retval = self.imageFile.getProperty('filename', title).strip()
+        retval = self.metadata.imageMetadata['file_name']
         return retval
