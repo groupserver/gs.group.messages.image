@@ -35,17 +35,17 @@ class IGSGroupImage(IGSGroupImageABC):
         default="browser/templates/image.pt")
 
 
-class IGSGroupImageSquare(IGSGroupImageABC):
+class IGSSquareGroupImage(IGSGroupImage):
+
+    squarePageTemplateFileName = ASCIILine(
+        title=u"Page Template File Name",
+        description=u'The name of the ZPT file that is used to render the '
+                    u'square image.',
+        required=False,
+        default="browser/templates/squareimage.pt")
 
     size = Int(
         title=u'Size',
         description=u'The width and height of the image, in pixels.',
         required=False,
         default=50)  # FIXME: use gs.config
-
-    pageTemplateFileName = ASCIILine(
-        title=u"Page Template File Name",
-        description=u'The name of the ZPT file that is used to render the '
-                    u'square image.',
-        required=False,
-        default="browser/templates/squareimage.pt")

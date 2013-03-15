@@ -16,7 +16,20 @@
          zope.interface.Interface"
     factory=".contentprovider.ImageContentProvider"
     provides="zope.contentprovider.interfaces.IContentProvider"/>
-
+  <!-- And the square content provider -->
+  <interface 
+    interface=".interfaces.IGSSquareGroupImage"
+    type="zope.contentprovider.interfaces.ITALNamespaceData"/>
+  <class class=".squarecontentprovider.SquareImageContentProvider">
+    <implements interface=".interfaces.IGSSquareGroupImage"/>
+  </class>
+  <adapter
+    name="groupserver.SquareGroupImage"
+    for="zope.interface.Interface 
+         zope.publisher.interfaces.browser.IDefaultBrowserLayer 
+         zope.interface.Interface"
+    factory=".squarecontentprovider.SquareImageContentProvider"
+    provides=".interfaces.IGSSquareGroupImage"/>
 
   <!-- Image Traversal -->
   <class class=".traverse.GSImageTraversal">
