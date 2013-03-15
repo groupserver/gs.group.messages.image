@@ -60,7 +60,7 @@ class Metadata(object):
 
     @Lazy
     def postURI(self):
-        u = '{0}/messages/post/{1}' 
+        u = '{0}/messages/post/{1}'
         retval = u.format(self.groupInfo.relativeURL, self.post['post_id'])
         return retval
 
