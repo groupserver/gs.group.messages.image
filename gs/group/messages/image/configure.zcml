@@ -2,6 +2,22 @@
 <configure xmlns="http://namespaces.zope.org/zope"
   xmlns:browser="http://namespaces.zope.org/browser">
   
+  <!-- Content Provider -->
+  <interface 
+    interface=".interfaces.IGSGroupImage"
+    type="zope.contentprovider.interfaces.ITALNamespaceData"/>
+  <class class=".contentprovider.ImageContentProvider">
+    <implements interface=".interfaces.IGSGroupImage"/>
+  </class>
+  <adapter
+    name="groupserver.GroupImage"
+    for="zope.interface.Interface 
+         zope.publisher.interfaces.browser.IDefaultBrowserLayer 
+         zope.interface.Interface"
+    factory=".contentprovider.ImageContentProvider"
+    provides="zope.contentprovider.interfaces.IContentProvider"/>
+
+
   <!-- Image Traversal -->
   <class class=".traverse.GSImageTraversal">
     <implements interface="zope.publisher.interfaces.IPublishTraverse"/>
@@ -13,9 +29,6 @@
     permission="zope2.View" />
 
   <!-- Image Page -->
-  <class class=".view.GSImageView">
-    <implements interface=".interfaces.IGSImageView"/>
-  </class>
   <browser:page 
     for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
     name="gsimage"

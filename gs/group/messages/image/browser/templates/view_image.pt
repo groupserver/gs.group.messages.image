@@ -97,9 +97,13 @@
                          skb python:u'%1.2fKB' % (s/1024.0);
                          t string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})">
           <a href="#" title="Full sized image" 
-             tal:attributes="href view/fullImageURI; title t">
-            <img src="#" class="scaledImage photo"
-                 tal:attributes="src view/scaledImageURI"/>
+             tal:attributes="href view/fullImageURI; title t"
+             tal:define="fileId view/imageId;
+                         alt string:The posted image ${view/filename};
+                         width view/maxWidth; height view/maxHeight">
+            <span tal:replace="structure provider:groupserver.GroupImage">
+              The image itself.
+            </span>
           </a>
           <p class="enclosure">
             <a href="#"
