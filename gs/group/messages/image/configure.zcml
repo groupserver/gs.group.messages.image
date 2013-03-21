@@ -54,8 +54,8 @@
      file="browser/javascript/image.js" />
   <browser:resource
      name="gs-group-messages-image-min-20130305.js"
-     file="browser/javascript/image-min.js" /
->
+     file="browser/javascript/image-min.js" />
+
   <!-- 400 Error page -->
   <browser:page 
     for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
