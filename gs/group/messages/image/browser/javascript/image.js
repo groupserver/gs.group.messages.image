@@ -6,7 +6,7 @@ function gs_group_messages_image () {
         isPublic = Boolean(jQuery(this).attr('public'));
         shareWidget = GSShareBox(this, isPublic);
         shareWidget.init();
-    });
+    })
 }
 
 jQuery(window).load(function(){
