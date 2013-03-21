@@ -56,19 +56,55 @@ is square.
 Square Image
 ------------
 
+The square image content provider, ``groupserver.SquareGroupImage``, always
+produces square images, rather than possibly rectangular images. It takes
+three arguments:
+
+:``fileId``: The file identifier (required).
+:``alt``: The alt-text (optional, default is blank).
+:``size``: The width and height of the image, in pixels (option, default is
+           50).
+
+The image is re-sized (or not) by ``gs.image`` [#image]_, and the same
+rules for linking to the image apply:
+
+* No change: ``{group}/files/f/{fileId}``
+* Resized: ``{originalFileLink}/square/{size}``
+* Tiny: a `data-URI`_.
 
 Image Page
 ==========
 
+The *Image* page, ``image`` in the Messages context, exists because people
+often post very large images to groups. The Image page re-sizes the image
+to something that is easier to view on the Web, and share using the
+`Sharebox JavaScript`_.
+
+The actual image page is ``gsimage``, in the Messages context. The
+``image`` page performs the traversal of the URL to either parse the file
+ID out, or display one of the `error pages`_
+
 Sharebox JavaScript
 -------------------
+
+The Image page makes use of the resource
+``gs-group-messages-image-20130305.js`` to provide the code for the
+**Share** button [#share]_.
 
 Error pages
 -----------
 
-400:
+There are two error pages, specific to the Image page.
 
-410:
+400 (Bad request):
+  The URL was missing the file identifier, so the ``gsimage400`` page is
+  shown.
+
+410 (Gone):
+  The identifier for the image *could* be found, but the associated post is
+  hidden, so the ``image_hidden.html`` page is shown.
+
+If the file could not be found then the standard ``404`` page is shown.
 
 
 Resources
@@ -90,5 +126,7 @@ Resources
 .. [#image] See ``gs.image``
             <https://source.iopen.net/groupserver/gs.group.messages.image>
 .. _data-URI: http://tools.ietf.org/html/rfc2397
+.. [#share] See ``gs.content.js.sharebox``
+            <https://source.iopen.net/groupserver/gs.content.js.sharebox>
 
 ..  LocalWords:  fileId GroupImage Sharebox
