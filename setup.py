@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import os
 from setuptools import setup, find_packages
 from version import get_version
@@ -32,14 +32,21 @@ setup(name='gs.group.messages.image',
     zip_safe=True,
     install_requires=[
         'setuptools',
-        'Products.XWFMailingListManager',
-        'Products.GSGroup',
+        'zope.cachedescriptors',
+        'zope.component',
+        'zope.contentprovider',
+        'zope.pagetemplate',
+        'zope.publisher',
+        'zope.schema',
+        'Zope2',
+        'gs.database',
+        'gs.content.layout',
+        'gs.content.js.sharebox',
+        'gs.errormesg',
         'gs.group.base',
         'gs.image',
-        'gs.errormesg'
-        # -*- Extra requirements: -*-
+        'Products.XWFFileLibrary2',
     ],
     entry_points="""
     # -*- Entry points: -*-
     """,)
-
