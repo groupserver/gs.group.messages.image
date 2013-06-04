@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_site_home_layout/page">
+  metal:use-macro="context/@@groupserver_layout/page">
   <head>
     <title metal:fill-slot="title">
       <tal:block replace="view/filename"/> by
@@ -15,7 +15,7 @@
         tal:condition="view/metadata/prevURI"
         tal:attributes="href view/metadata/prevURI"/>
       <link rel="up"
-        tal:attributes="href view/metadata/postURI" />
+        tal:attributes="href view/metadata/postURI;" title="Post" />
       <link rel="next"
         tal:condition="view/metadata/nextURI"
         tal:attributes="href view/metadata/nextURI"/>
@@ -27,7 +27,11 @@
   <body>
     <ul metal:fill-slot="breadcrumb" >
       <li><a tal:attributes="title string:${view/siteInfo/name} Homepage"
-             href="/" title="Home">&#8962;</a></li>
+             href="/" title="Home" class="icon-alone">
+          <span aria-hidden="true" data-icon="&#x2302;"></span>
+          <span class="screen-reader-text">Site home page</span>
+        </a>
+      </li>
       <li>
         <a tal:attributes="href string:${view/groupInfo/relativeURL}/">
           <strong class="group" 
@@ -35,9 +39,9 @@
         </a>
       </li>
       <li><a class="topic" 
-             tal:attributes="title view/metadata/topicShortName;
+             tal:attributes="title view/metadata/topic/subject;
                              href string:/r/topic/${view/metadata/topic/last_post_id}"
-             tal:content="structure view/metadata/topic/subject">Topic</a></li>
+             tal:content="structure view/metadata/topicShortName">Topic</a></li>
       <li><a class="post" 
              tal:attributes="title string:Post in ${view/metadata/topic/subject};
                              href view/metadata/postURI">Post</a></li>
@@ -49,24 +53,25 @@
         <a tal:condition="view/metadata/prevURI" class="btn"
            tal:attributes="href view/metadata/prevURI;
                            title view/metadata/prevImage/file_name"
-           href="#">Prev</a>
+           href="#" data-icon="&#x25c3;">Prev</a>
         <span tal:condition="not:view/metadata/prevURI" 
-              class="btn disabled">Prev</span>
-        <a href="#" class="btn"
+              class="btn disabled" data-icon="&#x25c3;">Prev</span>
+        <a href="#" class="btn" data-icon="&#x2b06;"
            tal:attributes="href view/metadata/postURI">Post</a>
         <a tal:condition="view/metadata/nextURI" class="btn"
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
-           href="#">Next</a>
+           href="#" data-icon-after="&#x25b9;">Next</a>
         <span tal:condition="not:view/metadata/nextURI" 
-              class="btn disabled">Next</span>
+              class="btn disabled" data-icon-after="&#x25b9;">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
 
       <h1>Image <code class="fn" 
                       tal:content="view/filename">filename</code></h1>
       
       <div class="scaled-image">
-        <div class="metadata" tal:define="t view/metadata/mime;">
+        <div class="metadata" tal:define="t view/metadata/mime;" 
+             role="contentinfo">
           <div tal:define="user view/metadata/authorInfo/user; size string:50;"
                tal:replace="structure provider:groupserver.SquareUserImage">
             User image
@@ -86,7 +91,7 @@
           <div class="gs-group-messages-image-buttons btn-toolbar" 
                role="toolbar" aria-label="Image Actions">
             <a class="gs-content-js-share btn btn-small" role="button" 
-               aria-haspopup="true"
+               aria-haspopup="true" data-icon="&#xe001;"
                tal:attributes="public python:view.isPublic and 1 or 0;
                                href string:${view/siteInfo/url}/r/img/${view/imageId};
                                title view/filename;">Share</a>
@@ -116,17 +121,17 @@
         <a tal:condition="view/metadata/prevURI" class="btn"
            tal:attributes="href view/metadata/prevURI;
                            title view/metadata/prevImage/file_name"
-           href="#">Prev</a>
+           href="#" data-icon="&#x25c3;">Prev</a>
         <span tal:condition="not:view/metadata/prevURI" 
-              class="btn disabled">Prev</span>
-        <a href="#" class="btn"
+              class="btn disabled" data-icon="&#x25c3;">Prev</span>
+        <a href="#" class="btn" data-icon="&#x2b06;"
            tal:attributes="href view/metadata/postURI">Post</a>
         <a tal:condition="view/metadata/nextURI" class="btn"
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
-           href="#">Next</a>
+           href="#" data-icon-after="&#x25b9;">Next</a>
         <span tal:condition="not:view/metadata/nextURI" 
-              class="btn disabled">Next</span>
+              class="btn disabled" data-icon-after="&#x25b9;">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
     </div><!--gs-group-messages-image-->
     <script type="text/javascript" metal:fill-slot="javascript"
