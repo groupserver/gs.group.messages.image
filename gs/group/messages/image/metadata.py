@@ -46,7 +46,7 @@ class Metadata(object):
 
     @Lazy
     def topicShortName(self):
-        ts = self.topic['subject']
+        ts = self.topic['subject'].split()
         if len(ts) < 4:
             retval = self.topic['subject']
         else:
