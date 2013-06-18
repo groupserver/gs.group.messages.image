@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from zope.cachedescriptors.property import Lazy
+from zope.publisher.interfaces import NotFound
 from Products.GSGroup.utils import is_public
-from gs.image.image import GSImage
-from gs.group.base.page import GroupPage
 from Products.XWFFileLibrary2.queries import FileQuery
 from Products.XWFFileLibrary2.error import Hidden
+from gs.image.image import GSImage
+from gs.group.base.page import GroupPage
 from errors import NoIDError
 from metadata import Metadata, get_uri_for_scaled
 
 
 class GSImageView(GroupPage):
     def __init__(self, context, request):
-        GroupPage.__init__(self, context, request)
+        super(GSImageView, self).__init__(context, request)
 
         self.imageId = imageId = request.get('imageId', None)
         if not self.imageId:
@@ -29,7 +30,8 @@ class GSImageView(GroupPage):
 
     @Lazy
     def metadata(self):
-        return Metadata(self.context, self.imageId)
+        retval = Metadata(self.context, self.imageId)
+        return retval
 
     @Lazy
     def imageFile(self):
@@ -65,5 +67,11 @@ class GSImageView(GroupPage):
 
     @Lazy
     def filename(self):
-        retval = self.metadata.imageMetadata['file_name']
+        try:
+            retval = self.metadata.imageMetadata['file_name']
+        except TypeError:
+            # --=mpj17=-- If we have a None returned by the query then
+            # we have no file. Turn the TypeError (500) into a NotFound
+            # (404).
+            raise NotFound(self, self.imageId, self.request)
         return retval
