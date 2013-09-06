@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_layout/page">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_layout/page">
   <head>
     <title metal:fill-slot="title">
       <tal:block replace="view/filename"/> by
@@ -56,8 +56,11 @@
            href="#" data-icon="&#x25c3;">Prev</a>
         <span tal:condition="not:view/metadata/prevURI" 
               class="btn disabled" data-icon="&#x25c3;">Prev</span>
-        <a href="#" class="btn" data-icon="&#x2b06;"
-           tal:attributes="href view/metadata/postURI">Post</a>
+        <a href="#" tal:attributes="href view/metadata/postURI"
+           class="btn icon-alone">
+          <span aria-hidden="true" data-icon="&#x2b06;"></span>
+          <span class="screen-reader-text">Post</span>
+        </a>
         <a tal:condition="view/metadata/nextURI" class="btn"
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
@@ -124,8 +127,11 @@
            href="#" data-icon="&#x25c3;">Prev</a>
         <span tal:condition="not:view/metadata/prevURI" 
               class="btn disabled" data-icon="&#x25c3;">Prev</span>
-        <a href="#" class="btn" data-icon="&#x2b06;"
-           tal:attributes="href view/metadata/postURI">Post</a>
+        <a href="#" tal:attributes="href view/metadata/postURI"
+           class="btn icon-alone">
+          <span aria-hidden="true" data-icon="&#x2b06;"></span>
+          <span class="screen-reader-text">Post</span>
+        </a>
         <a tal:condition="view/metadata/nextURI" class="btn"
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
