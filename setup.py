@@ -42,7 +42,7 @@ setup(name='gs.group.messages.image',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['gs', 'gs.group', 'gs.group.messages'],
     include_package_data=True,
-    zip_safe=True,
+    zip_safe=False,
     install_requires=[
         'setuptools',
         'zope.cachedescriptors',
