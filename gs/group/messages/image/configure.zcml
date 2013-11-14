@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Copyright © 2013 OnlineGroups.net and Contributors. -->
+<!-- All Rights Reserved. -->
+
+<!-- This software is subject to the provisions of the Zope Public -->
+<!-- License, Version 2.1 (ZPL).  A copy of the ZPL should accompany this -->
+<!-- distribution. -->
+
+<!-- THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED -->
+<!-- WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED -->
+<!-- WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND -->
+<!-- FITNESS FOR A PARTICULAR PURPOSE. -->
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser">
 
-  <!-- Copyright © 2013 OnlineGroups.net and Contributors. -->
-  <!-- All Rights Reserved. -->
-
-  <!-- This software is subject to the provisions of the Zope Public -->
-  <!-- License, Version 2.1 (ZPL).  A copy of the ZPL should accompany this -->
-  <!-- distribution. -->
-
-  <!-- THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED -->
-  <!-- WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED -->
-  <!-- WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND -->
-  <!-- FITNESS FOR A PARTICULAR PURPOSE. -->
+  <include package="zope.viewlet" file="meta.zcml" />
 
   <!-- Content Provider -->
-  <interface 
+  <interface
     interface=".interfaces.IGSGroupImage"
     type="zope.contentprovider.interfaces.ITALNamespaceData"/>
   <class class=".contentprovider.ImageContentProvider">
@@ -23,13 +24,13 @@
   </class>
   <adapter
     name="groupserver.GroupImage"
-    for="zope.interface.Interface 
-         zope.publisher.interfaces.browser.IDefaultBrowserLayer 
+    for="zope.interface.Interface
+         zope.publisher.interfaces.browser.IDefaultBrowserLayer
          zope.interface.Interface"
     factory=".contentprovider.ImageContentProvider"
     provides="zope.contentprovider.interfaces.IContentProvider"/>
   <!-- And the square content provider -->
-  <interface 
+  <interface
     interface=".interfaces.IGSSquareGroupImage"
     type="zope.contentprovider.interfaces.ITALNamespaceData"/>
   <class class=".squarecontentprovider.SquareImageContentProvider">
@@ -37,8 +38,8 @@
   </class>
   <adapter
     name="groupserver.SquareGroupImage"
-    for="zope.interface.Interface 
-         zope.publisher.interfaces.browser.IDefaultBrowserLayer 
+    for="zope.interface.Interface
+         zope.publisher.interfaces.browser.IDefaultBrowserLayer
          zope.interface.Interface"
     factory=".squarecontentprovider.SquareImageContentProvider"
     provides=".interfaces.IGSSquareGroupImage"/>
@@ -47,18 +48,18 @@
   <class class=".traverse.GSImageTraversal">
     <implements interface="zope.publisher.interfaces.IPublishTraverse"/>
   </class>
-  <browser:page 
-    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
+  <browser:page
+    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder"
     name="image"
     class=".traverse.GSImageTraversal"
     permission="zope2.View" />
 
   <!-- Image Page -->
-  <browser:page 
-    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
+  <browser:page
+    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder"
     name="gsimage"
     class=".view.GSImageView"
-    template="browser/templates/view_image.pt" 
+    template="browser/templates/view_image.pt"
     permission="zope2.Public" />
 
   <browser:resource
@@ -69,17 +70,17 @@
      file="browser/javascript/image-min.js" />
 
   <!-- 400 Error page -->
-  <browser:page 
-    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder" 
+  <browser:page
+    for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder"
     name="gsimage400"
     class=".errors.ImageNoID"
     permission="zope2.Public" />
-    
+
   <!-- The Gone (410) page -->
-  <browser:page 
+  <browser:page
     for="Products.XWFMailingListManager.interfaces.IGSMessagesFolder"
     name="image_hidden.html"
-    class=".hidden.ImageHidden" 
+    class=".hidden.ImageHidden"
     permission="zope2.Public" />
 
   <!--Help-->
@@ -88,5 +89,5 @@
     template="browser/templates/help.pt"
     permission="zope.Public"
     weight="13" />
-  
+
 </configure>
