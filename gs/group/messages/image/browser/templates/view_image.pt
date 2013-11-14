@@ -24,7 +24,7 @@
       <tal:block replace="view/siteInfo/name"/>
     </title>
     <tal:block metal:fill-slot="metadata">
-      <link rel="prev" 
+      <link rel="prev"
         tal:condition="view/metadata/prevURI"
         tal:attributes="href view/metadata/prevURI"/>
       <link rel="up"
@@ -47,15 +47,15 @@
       </li>
       <li>
         <a tal:attributes="href string:${view/groupInfo/relativeURL}/">
-          <strong class="group" 
+          <strong class="group"
                   tal:content="view/groupInfo/name">This group</strong>
         </a>
       </li>
-      <li><a class="topic" 
+      <li><a class="topic"
              tal:attributes="title view/metadata/topic/subject;
                              href string:/r/topic/${view/metadata/topic/last_post_id}"
              tal:content="structure view/metadata/topicShortName">Topic</a></li>
-      <li><a class="post" 
+      <li><a class="post"
              tal:attributes="title string:Post in ${view/metadata/topic/subject};
                              href view/metadata/postURI">Post</a></li>
       <li>Image</li>
@@ -67,7 +67,7 @@
            tal:attributes="href view/metadata/prevURI;
                            title view/metadata/prevImage/file_name"
            href="#" data-icon="&#x25c3;">Prev</a>
-        <span tal:condition="not:view/metadata/prevURI" 
+        <span tal:condition="not:view/metadata/prevURI"
               class="btn disabled" data-icon="&#x25c3;">Prev</span>
         <a href="#" tal:attributes="href view/metadata/postURI"
            class="btn icon-alone">
@@ -78,15 +78,15 @@
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
            href="#" data-icon-after="&#x25b9;">Next</a>
-        <span tal:condition="not:view/metadata/nextURI" 
+        <span tal:condition="not:view/metadata/nextURI"
               class="btn disabled" data-icon-after="&#x25b9;">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
 
-      <h1>Image <code class="fn" 
+      <h1>Image <code class="fn"
                       tal:content="view/filename">filename</code></h1>
-      
+
       <div class="scaled-image">
-        <div class="metadata" tal:define="t view/metadata/mime;" 
+        <div class="metadata" tal:define="t view/metadata/mime;"
              role="contentinfo">
           <div tal:define="user view/metadata/authorInfo/user; size string:50;"
                tal:replace="structure provider:groupserver.SquareUserImage">
@@ -104,20 +104,20 @@
                   tal:content="python:munge_date(view.context, view.metadata.date)">A Date</em>
             </li>
           </ul>
-          <div class="gs-group-messages-image-buttons btn-toolbar" 
+          <div class="gs-group-messages-image-buttons btn-toolbar"
                role="toolbar" aria-label="Image Actions">
-            <a class="gs-content-js-share btn btn-small" role="button" 
+            <a class="gs-content-js-share btn btn-small" role="button"
                aria-haspopup="true" data-icon="&#xe001;"
                tal:attributes="public python:view.isPublic and 1 or 0;
                                href string:${view/siteInfo/url}/r/img/${view/imageId};
                                title view/filename;">Share</a>
           </div><!--gs-group-messages-image-buttons-->
         </div><!--metadata-->
-        <div class="preview" 
+        <div class="preview"
              tal:define="s view/metadata/imageMetadata/file_size;
                          skb python:u'%1.2fKB' % (s/1024.0);
                          t string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})">
-          <a href="#" title="Full sized image" 
+          <a href="#" title="Full sized image"
              tal:attributes="href view/fullImageURI; title t"
              tal:define="fileId view/imageId;
                          alt string:The posted image ${view/filename};
@@ -138,7 +138,7 @@
            tal:attributes="href view/metadata/prevURI;
                            title view/metadata/prevImage/file_name"
            href="#" data-icon="&#x25c3;">Prev</a>
-        <span tal:condition="not:view/metadata/prevURI" 
+        <span tal:condition="not:view/metadata/prevURI"
               class="btn disabled" data-icon="&#x25c3;">Prev</span>
         <a href="#" tal:attributes="href view/metadata/postURI"
            class="btn icon-alone">
@@ -149,13 +149,12 @@
            tal:attributes="href view/metadata/nextURI;
                            title view/metadata/nextImage/file_name"
            href="#" data-icon-after="&#x25b9;">Next</a>
-        <span tal:condition="not:view/metadata/nextURI" 
+        <span tal:condition="not:view/metadata/nextURI"
               class="btn disabled" data-icon-after="&#x25b9;">Next</span>
       </div><!--gs-group-messages-image-navlinks-->
     </div><!--gs-group-messages-image-->
     <script type="text/javascript" metal:fill-slot="javascript"
-            src="/++resource++gs-group-messages-image-min-20130305.js"
+            src="/++resource++gs-group-messages-image-min-20131114.js"
             defer="true">&#160;</script>
   </body>
 </html>
-
