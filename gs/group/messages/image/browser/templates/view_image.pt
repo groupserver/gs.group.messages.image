@@ -114,9 +114,12 @@
           </div><!--gs-group-messages-image-buttons-->
         </div><!--metadata-->
         <div class="preview"
-             tal:define="s view/metadata/imageMetadata/file_size;
+             tal:define="w view/fullImage/width;
+                         h view/fullImage/height;
+                         dim python:': %d by %d pixels ' % (w, h) if ((w&gt;0)and(h&gt;0)) else '';
+                         s view/metadata/imageMetadata/file_size;
                          skb python:u'%1.2fKB' % (s/1024.0);
-                         t string:Full sized image: ${view/fullImage/width} by ${view/fullImage/height} pixels (${skb})">
+                         t string:Full sized image ${dim} (${skb})">
           <a href="#" title="Full sized image"
              tal:attributes="href view/fullImageURI; title t"
              tal:define="fileId view/imageId;

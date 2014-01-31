@@ -1,6 +1,7 @@
-<img class="gs-group-message-image-content-provider" 
-     src="#" alt="An image" width="20" height="20" content="image/jpeg"
+<img class="gs-group-message-image-content-provider"
+     src="#" alt="An image" width="20" height="20" data-content="image/jpeg"
      tal:define="view options/view;"
      tal:attributes="src view/imageUrl; alt view/alt;
-                     width view/finalWidth; height view/finalHeight;
-                     content view/image/contentType;" />
+                     width python:view.finalWidth if view.finalWidth &gt; 0 else '';
+                     height python:view.finalHeight if view.finalHeight &gt; 0 else '';
+                     data-content view/image/contentType;" />
