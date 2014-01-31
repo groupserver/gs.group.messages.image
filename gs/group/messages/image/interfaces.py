@@ -12,53 +12,54 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from zope.contentprovider.interfaces import IContentProvider
 from zope.schema import Int, ASCIILine, TextLine
 
 
 class IGSGroupImageABC(IContentProvider):
 
-    fileId = ASCIILine(title=u'File Identifier',
-                description=u'The identifier for the image.',
+    fileId = ASCIILine(title='File Identifier',
+                description='The identifier for the image.',
                 required=True)
 
-    alt = TextLine(title=u'Alt Text',
-                description=u'The alternate text for the image.',
+    alt = TextLine(title='Alt Text',
+                description='The alternate text for the image.',
                 required=False)
 
 
 class IGSGroupImage(IGSGroupImageABC):
     width = Int(
-        title=u'Width',
-        description=u'The width of the image, in pixels.',
+        title='Width',
+        description='The width of the image, in pixels.',
         required=False,
         default=50)  # FIXME: use gs.config
 
     height = Int(
-        title=u'Height',
-        description=u'The height of the image, in pixels.',
+        title='Height',
+        description='The height of the image, in pixels.',
         required=False,
         default=70)  # FIXME: use gs.config
 
     pageTemplateFileName = ASCIILine(
-        title=u"Page Template File Name",
-        description=u'The name of the ZPT file that is used to render the '
-                    u'image.',
+        title="Page Template File Name",
+        description='The name of the ZPT file that is used to render the '
+                    'image.',
         required=False,
-        default="browser/templates/image.pt")
+        default="browser/templates/image.pt".encode('ascii', 'ignore'))
 
 
 class IGSSquareGroupImage(IGSGroupImage):
 
     squarePageTemplateFileName = ASCIILine(
-        title=u"Page Template File Name",
-        description=u'The name of the ZPT file that is used to render the '
-                    u'square image.',
+        title="Page Template File Name",
+        description='The name of the ZPT file that is used to render the '
+                    'square image.',
         required=False,
-        default="browser/templates/squareimage.pt")
+        default="browser/templates/squareimage.pt".encode('ascii', 'ignore'))
 
     size = Int(
-        title=u'Size',
-        description=u'The width and height of the image, in pixels.',
+        title='Size',
+        description='The width and height of the image, in pixels.',
         required=False,
         default=50)  # FIXME: use gs.config
