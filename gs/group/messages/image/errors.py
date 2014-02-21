@@ -12,8 +12,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from urllib import quote
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from gs.core import to_ascii
 from gs.errormesg.baseerror import BaseErrorPage
 
 
@@ -33,8 +35,8 @@ class ImageNoID(BaseErrorPage):
         self.message = quote(m)
 
     def __call__(self, *args, **kw):
-        contentType = 'text/html; charset=UTF-8'
-        self.request.response.setHeader('Content-Type', contentType)
+        self.request.response.setHeader(to_ascii('Content-Type'),
+                                        to_ascii('text/html; charset=UTF-8'))
         # Return 400: Bad Request
         self.request.response.setStatus(400)
         return self.index(self, *args, **kw)
