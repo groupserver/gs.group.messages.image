@@ -12,15 +12,17 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import, unicode_literals
 from zope.cachedescriptors.property import Lazy
 from zope.publisher.interfaces import NotFound
 from Products.GSGroup.utils import is_public
 from Products.XWFFileLibrary2.queries import FileQuery
 from Products.XWFFileLibrary2.error import Hidden
-from gs.image.image import GSImage
+from gs.core import to_ascii
 from gs.group.base.page import GroupPage
-from errors import NoIDError
-from metadata import Metadata, get_uri_for_scaled
+from gs.image.image import GSImage
+from .errors import NoIDError
+from .metadata import Metadata, get_uri_for_scaled
 
 
 class GSImageView(GroupPage):
@@ -48,11 +50,16 @@ class GSImageView(GroupPage):
 
     @Lazy
     def imageFile(self):
-        assert hasattr(self.groupInfo.groupObj, 'files'), \
-          'No "files" in %s (%s)' % (self.groupInfo.name, self.groupInfo.id)
+        g = self.groupInfo.groupObj.aq_explicit
+        if not hasattr(g, to_ascii('files')):
+            m = 'No "files" in {0} ({1})'
+            msg = m.format(self.groupInfo.name, self.groupInfo.id)
+            raise ValueError(msg)
         fileLibrary = self.groupInfo.groupObj.files
         retval = fileLibrary.get_file_by_id(self.imageId)
-        assert retval, 'Image file not set.'
+        if not retval:
+            m = 'Could not get image for ID "{0}".'.format(self.imageId)
+            raise ValueError(m)
         return retval
 
     @Lazy
