@@ -1,5 +1,7 @@
+"use strict";
+// Support for the image page
 //
-// Copyright © 2013 OnlineGroups.net and Contributors.
+// Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 // All Rights Reserved.
 //
 // This software is subject to the provisions of the Zope Public License,
@@ -12,7 +14,7 @@
 jQuery.noConflict();
 
 function gs_group_messages_image () {
-    var isPublic = true;
+    var isPublic=true, shareWidget=null;
     jQuery('.gs-content-js-share').each(function () {
         isPublic = Boolean(jQuery(this).attr('public'));
         shareWidget = GSShareBox(this, isPublic);
@@ -21,6 +23,6 @@ function gs_group_messages_image () {
 }
 
 jQuery(window).load(function(){
-    gsJsLoader.with_module('/++resource++gs-content-js-sharebox-20131114.js', 
+    gsJsLoader.with_module('/++resource++gs-content-js-sharebox-min-20140327.js', 
                            gs_group_messages_image);
 });
