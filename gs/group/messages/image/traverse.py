@@ -35,10 +35,10 @@ class GSImageTraversal(GroupPage):
         try:
             retval = getMultiAdapter((self.context, self.request),
                         name="gsimage")()
-        except NoIDError, n:  # lint:ok
+        except NoIDError as n:  # lint:ok
             retval = getMultiAdapter((self.context, self.request),
                         name="gsimage400")()
-        except Hidden, h:  # lint:ok
+        except Hidden as h:  # lint:ok
             retval = getMultiAdapter((self.context, self.request),
                                         name="image_hidden.html")()
         return retval
