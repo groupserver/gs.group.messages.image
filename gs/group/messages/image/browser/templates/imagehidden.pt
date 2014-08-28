@@ -19,10 +19,10 @@
       <span tal:replace="view/siteInfo/name"/>
     </title>
     <tal:block metal:fill-slot="metadata">
-      <link rel="home" 
+      <link rel="home"
         tal:attributes="title string:${view/siteInfo/name} Homepage;
         href view/siteInfo/url" />
-      <link rel="help" 
+      <link rel="help"
         tal:attributes="title string:${view/siteInfo/name} Help;"
         href="/help"/>
     </tal:block>
@@ -36,10 +36,10 @@
           <li class="prevlink">
             <a tal:condition="view/metadata/prevURI" class="prev"
               tal:attributes="href view/metadata/prevURI"
-              href="#"><img src="#" 
-                  tal:attributes="src view/metadata/prevImage/icon_uri"/> 
+              href="#"><img src="#"
+                  tal:attributes="src view/metadata/prevImage/icon_uri"/>
               Previous Image</a>
-            <span tal:condition="not:view/metadata/prevURI" 
+            <span tal:condition="not:view/metadata/prevURI"
               class="prev">Previous Image</span>
           </li>
           <li class="postLink">
@@ -51,9 +51,9 @@
             <a tal:condition="view/metadata/nextURI" class="next"
               tal:attributes="href view/metadata/nextURI"
               href="#">Next Image
-              <img src="#" 
+              <img src="#"
                 tal:attributes="src view/metadata/nextImage/icon_uri"/></a>
-            <span tal:condition="not:view/metadata/nextURI" 
+            <span tal:condition="not:view/metadata/nextURI"
               class="next">Next Image</span>
           </li>
         </ul>
@@ -61,10 +61,10 @@
       <!--Appologise, and state what went wrong -->
       <p>
         Sorry, but the image you want to see is hidden.
-        The reason that 
+        The reason that
         <a class="fn" href="#"
           tal:attributes="href view/details/adminInfo/url"
-          tal:content="view/details/adminInfo/name">an admin</a> 
+          tal:content="view/details/adminInfo/name">an admin</a>
         gave for hiding the image is as follows.
       </p>
       <blockquote>
@@ -80,7 +80,7 @@
           tal:define="m string:Hi! I wanted to see the image ${view/requested} but it is hidden. I think I should be allowed to see the image because...;
             msg python:view.quote(m)"
           tal:attributes="href string:mailto:${supportEmail}?subject=Hidden%20Image&amp;body=${msg}"
-          class="email">email support</a> 
+          class="email">email support</a>
         and we will see what we can do to help.
       </p>
       <!--Lastly, give the technical details about the error. Bots may-->
@@ -88,7 +88,7 @@
       <p id="technical">Technical Description:
         <code class="error"><span class="val">410</span>
           <span class="description">Gone</span></code>;
-        <span class="detail">ID: 
+        <span class="detail">ID:
           <code class="val"
             tal:content="view/fileId">File ID</code>
       </p>
