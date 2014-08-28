@@ -2,7 +2,5 @@
      src="#" alt="An image" data-content="image/jpeg"
      tal:define="view options/view;"
      tal:attributes="src view/imageUrl; alt view/alt;
-                     sizes view/sizes; srcset view/srcset;
-                     data-content view/image/contentType;" />
-<!--                     width python:view.finalWidth if view.finalWidth &gt; 0 else '';
-                     height python:view.finalHeight if view.finalHeight &gt; 0 else '';-->
+                     sizes view/sizes | nothing; srcset view/srcset | nothing;
+                     data-content view/image/ct | nothing;" />

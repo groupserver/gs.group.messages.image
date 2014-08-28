@@ -39,6 +39,12 @@ class ImageContentProvider(GroupContentProvider):
         self.finalHeight = self.finalSize[1]
         self.imageUrl = self.get_image_url()
         self.image = self.smallImage if self.resizeNeeded else self.origImg
+        # --=mpj17=-- The page template uses self.image.ct, rather than
+        # self.image.contentType because it will drop the attribute if it
+        # is None, but self.image.contentType is never None, just ''.
+        # A similar issue hits self.sizes and self.srcset below
+        ct = self.image.contentType
+        self.image.ct = ct if ct else None
 
     def render(self):
         if not self.updated:
@@ -82,26 +88,28 @@ class ImageContentProvider(GroupContentProvider):
     @Lazy
     def sizes(self):
         'The value for the sizes attribute of the image.'
-        retval = ''
-        # If we are dealing with something that can be scaled
-        if self.finalWidth:
-            # If the viewport is as big as the image, then show the full
-            # image, else scale the image to the size of the viewport.
-            r = '(min-width: {0}px) {0}px,\n     (max-width: {0}px) 100vw'
-            retval = r.format(self.finalWidth)
+        retval = None  # --=mpj17=-- Deliberately None, not ''
+        if self.finalWidth > 0:
+            # If we are dealing with something that PIL can scale...
+            # To be read as "if the viewport is as big as the image, then
+            # show the full image, else scale the image to the size of the
+            # viewport."
+            r = '(min-width: {0}px) {0}px,\n     (max-width: {1}px) 100vw'
+            retval = r.format(self.finalWidth, self.finalWidth-1)
         return retval
 
     @Lazy
     def srcset(self):
         'The value of the srcset attribute of the image'
-        # If we are dealing with something that can be scaled
-        if self.finalWidth:
+        retval = None
+        if self.finalWidth > 0:
+            # If we are dealing with something that can be scaled by PIL
             sizes = []
             # --=mpj17=-- In theory we can do this in 1px increments, but
             # that would result in too much HTML. Each 100px drop in width
             # equates to a ten-ish kiliobyte reduction in size.
             s = '{0}/resize/'.format(self.file_link())
-            for breakpoint in range(self.finalWidth - 100, 100, -100):
+            for breakpoint in range(self.finalWidth, 100, -100):
                 size = '{0}{1}/{1} {1}w'.format(s, breakpoint)
                 sizes.append(size)
             retval = ',\n'.join(sizes)
