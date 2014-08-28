@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import absolute_import, unicode_literals
 from zope.cachedescriptors.property import Lazy
 from zope.publisher.interfaces import NotFound
@@ -35,8 +35,8 @@ class GSImageView(GroupPage):
 
         self.__topicImages = None
 
-        self.maxWidth = 690  # u on OGN TODO: gs.config
-        self.maxHeight = 690  # 34.5u on OGN TODO: gs.config
+        self.maxWidth = 660  # u on OGN TODO: gs.config
+        self.maxHeight = 660  # 34.5u on OGN TODO: gs.config
         self.isPublic = is_public(self.groupInfo.groupObj)
 
         q = FileQuery()
@@ -73,7 +73,8 @@ class GSImageView(GroupPage):
     def scaledImageURI(self):
         # http://wibble.com/groups/bar/files/f/abc123/resize/500/500/foo.jpg
         retval = get_uri_for_scaled(self.groupInfo, self.imageId,
-                    self.maxWidth, self.maxHeight, self.filename)
+                                    self.maxWidth, self.maxHeight,
+                                    self.filename)
         assert self.imageId in retval
         return retval
 
@@ -81,7 +82,7 @@ class GSImageView(GroupPage):
     def fullImageURI(self):
         # http://wibble.com/groups/bar/files/f/abc123/foo.jpg
         retval = '/groups/%s/files/f/%s/%s' % \
-          (self.groupInfo.id, self.imageId, self.filename)
+            (self.groupInfo.id, self.imageId, self.filename)
         assert self.imageId in retval
         return retval
 

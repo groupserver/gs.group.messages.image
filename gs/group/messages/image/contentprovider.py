@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import unicode_literals
 from base64 import b64encode
 from zope.cachedescriptors.property import Lazy
@@ -55,7 +55,7 @@ class ImageContentProvider(GroupContentProvider):
     @Lazy
     def resizeNeeded(self):
         retval = ((int(self.width) < self.origImg.width) or
-                    (int(self.height) < self.origImg.height))
+                  (int(self.height) < self.origImg.height))
         return retval
 
     @Lazy
@@ -79,6 +79,34 @@ class ImageContentProvider(GroupContentProvider):
             retval = self.origImg
         return retval
 
+    @Lazy
+    def sizes(self):
+        'The value for the sizes attribute of the image.'
+        retval = ''
+        # If we are dealing with something that can be scaled
+        if self.finalWidth:
+            # If the viewport is as big as the image, then show the full
+            # image, else scale the image to the size of the viewport.
+            r = '(min-width: {0}px) {0}px,\n     (max-width: {0}px) 100vw'
+            retval = r.format(self.finalWidth)
+        return retval
+
+    @Lazy
+    def srcset(self):
+        'The value of the srcset attribute of the image'
+        # If we are dealing with something that can be scaled
+        if self.finalWidth:
+            sizes = []
+            # --=mpj17=-- In theory we can do this in 1px increments, but
+            # that would result in too much HTML. Each 100px drop in width
+            # equates to a ten-ish kiliobyte reduction in size.
+            s = '{0}/resize/'.format(self.file_link())
+            for breakpoint in range(self.finalWidth - 100, 100, -100):
+                size = '{0}{1}/{1} {1}w'.format(s, breakpoint)
+                sizes.append(size)
+            retval = ',\n'.join(sizes)
+        return retval
+
     def embedded_image(self):
         d = b64encode(self.smallImage.data)
         r = 'data:{mediatype};base64,{data}'
@@ -87,13 +115,14 @@ class ImageContentProvider(GroupContentProvider):
 
     def file_link(self):
         r = '{group}/files/f/{fileId}'
-        retval = r.format(group=self.groupInfo.relativeURL, fileId=self.fileId)
+        retval = r.format(group=self.groupInfo.relativeURL,
+                          fileId=self.fileId)
         return retval
 
     def resize_link(self):
         r = '{fileLink}/resize/{width}/{height}'
         retval = r.format(fileLink=self.file_link(), width=self.width,
-                            height=self.height)
+                          height=self.height)
         return retval
 
     def get_image_url(self):
