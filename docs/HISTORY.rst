@@ -1,6 +1,20 @@
 Changelog
 =========
 
+2.3.1 (2015-10-15)
+------------------
+
+* Following the changes to `gs.group.messages.post.base`_
+* Using the ``mailto`` function from `gs.core`_
+* Pointing at `GitHub`_ as the canonical repository
+
+.. _GitHub:
+   https://github.com/groupserver/gs.group.messages.image
+.. _gs.group.messages.post.base:
+   https://github.com/groupserver/gs.group.messages.post.base
+.. _gs.core:
+   https://github.com/groupserver/gs.core
+
 2.3.0 (2014-08-28)
 ------------------
 
@@ -81,3 +95,5 @@ Changelog
 ------------------
 
 * Initial version.
+
+..  LocalWords:  Changelog

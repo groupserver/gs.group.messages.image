@@ -7,11 +7,14 @@ The images displayed in a GroupServer group
 
 :Author: `Michael JasonSmith`_
 :Contact: Michael JasonSmith <mpj17@onlinegroups.net>
-:Date: 2013-03-21
+:Date: 2015-10-15
 :Organization: `GroupServer.org`_
 :Copyright: This document is licensed under a
-  `Creative Commons Attribution-Share Alike 3.0 New Zealand License`_
+  `Creative Commons Attribution-Share Alike 4.0 International License`_
   by `OnlineGroups.Net`_.
+
+.. _Creative Commons Attribution-Share Alike 4.0 International License:
+    http://creativecommons.org/licenses/by-sa/4.0/
 
 Introduction
 ============
@@ -110,7 +113,7 @@ If the file could not be found then the standard ``404`` page is shown.
 Resources
 =========
 
-- Code repository: https://source.iopen.net/groupserver/gs.group.messages.image
+- Code repository: https://github.com/groupserver/gs.group.messages.image
 - Questions and comments to http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver
 
@@ -118,15 +121,13 @@ Resources
 .. _GroupServer.org: http://groupserver.org/
 .. _OnlineGroups.Net: https://onlinegroups.net
 .. _Michael JasonSmith: http://groupserver.org/p/mpj17
-.. _Creative Commons Attribution-Share Alike 3.0 New Zealand License:
-   http://creativecommons.org/licenses/by-sa/3.0/nz/
 
 .. [#archive] See ``Products.XWFFileLibrary2``
-              <https://source.iopen.net/groupserver/Products.XWFFileLibrary2>
+              <https://github.com/groupserver/Products.XWFFileLibrary2>
 .. [#image] See ``gs.image``
-            <https://source.iopen.net/groupserver/gs.group.messages.image>
+            <https://github.com/groupserver/gs.group.messages.image>
 .. _data-URI: http://tools.ietf.org/html/rfc2397
 .. [#share] See ``gs.content.js.sharebox``
-            <https://source.iopen.net/groupserver/gs.content.js.sharebox>
+            <https://github.com/groupserver/gs.content.js.sharebox>
 
 ..  LocalWords:  fileId GroupImage Sharebox
