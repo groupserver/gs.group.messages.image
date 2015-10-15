@@ -12,10 +12,12 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import, unicode_literals, print_function
 from zope.cachedescriptors.property import Lazy
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from gs.core import mailto
 from Products.XWFFileLibrary2.hidden import FileHidden
-from metadata import Metadata
+from .metadata import Metadata
 
 
 class ImageHidden(FileHidden):
@@ -29,3 +31,16 @@ class ImageHidden(FileHidden):
     @Lazy
     def metadata(self):
         return Metadata(self.context, self.fileId)
+
+    @Lazy
+    def email(self):
+        subject = 'Hidden image'
+        b = '''Hello,
+
+I wanted to see the image
+  <{0}>.
+However, it is hidden. I think I should be allowed to see the image
+because...'''
+        body = b.format(self.requested)
+        retval = mailto(self.siteInfo.get_support_email(), subject, body)
+        return retval
