@@ -117,9 +117,8 @@
              tal:define="w view/fullImage/width;
                          h view/fullImage/height;
                          dim python:': %d by %d pixels ' % (w, h) if ((w&gt;0)and(h&gt;0)) else '';
-                         s view/metadata/imageMetadata/file_size;
-                         skb python:u'%1.2fKB' % (s/1024.0);
-                         t string:Full sized image ${dim} (${skb})">
+                         s view/metadata/size
+                         t string:Full sized image ${s})">
           <a href="#" title="Full sized image"
              tal:attributes="href view/fullImageURI; title t"
              tal:define="fileId view/imageId;

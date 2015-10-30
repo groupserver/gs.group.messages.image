@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,14 +12,16 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import, division, unicode_literals, print_function
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
-from queries import ImageQuery
+from gs.group.messages.base import file_size_format
+from .queries import ImageQuery
 
 
 def get_uri_for_scaled(groupInfo, imageId, maxWidth, maxHeight, filename):
     retval = '/groups/%s/files/f/%s/resize/%s/%s/%s' % \
-      (groupInfo.id, imageId, maxWidth, maxHeight, filename)
+        (groupInfo.id, imageId, maxWidth, maxHeight, filename)
     assert type(retval) in (str, unicode)
     assert retval
     return retval
@@ -114,10 +116,14 @@ class Metadata(object):
 
     @Lazy
     def authorInfo(self):
-        retval = createObject('groupserver.UserFromId', self.context,
-                    self.post['author_id'])
+        retval = createObject('groupserver.UserFromId', self.context, self.post['author_id'])
         return retval
 
     @Lazy
     def date(self):
         return self.post['date']
+
+    @Lazy
+    def size(self):
+        retval = file_size_format(self.imageMetadata['file_size'])
+        return retval
