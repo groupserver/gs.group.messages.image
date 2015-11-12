@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.3.3 (2015-11-12)
+------------------
+
+* Following the changes to the `gs.content.js.sharebox`_ code
+
+.. _gs.content.js.sharebox:
+   https://github.com/groupserver/gs.content.js.sharebox
+
 2.3.2 (2015-10-30)
 ------------------
 
