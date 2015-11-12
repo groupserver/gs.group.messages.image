@@ -63,6 +63,12 @@
     permission="zope2.Public" />
 
   <browser:resource
+     name="gs-group-messages-image-20151112.js"
+     file="browser/javascript/image.js" />
+  <browser:resource
+     name="gs-group-messages-image-min-20151112.js"
+     file="browser/javascript/image-min.js" />
+  <browser:resource
      name="gs-group-messages-image-20140327.js"
      file="browser/javascript/image.js" />
   <browser:resource

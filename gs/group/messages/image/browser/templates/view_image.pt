@@ -156,7 +156,7 @@
       </div><!--gs-group-messages-image-navlinks-->
     </div><!--gs-group-messages-image-->
     <script metal:fill-slot="javascript" type="text/javascript"
-            src="/++resource++gs-group-messages-image-min-20140327.js"
+            src="/++resource++gs-group-messages-image-min-20151112.js"
             defer="defer"> </script>
   </body>
 </html>
