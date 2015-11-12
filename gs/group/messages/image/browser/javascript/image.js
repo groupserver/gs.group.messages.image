@@ -23,6 +23,7 @@ function gs_group_messages_image () {
 }
 
 jQuery(window).load(function(){
-    gsJsLoader.with_module('/++resource++gs-content-js-sharebox-min-20140327.js', 
-                           gs_group_messages_image);
+    gsJsLoader.with_module(
+        '/++resource++gs-content-js-sharebox-min-20151112.js',
+        gs_group_messages_image);
 });
