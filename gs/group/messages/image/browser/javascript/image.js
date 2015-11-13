@@ -16,7 +16,8 @@ jQuery.noConflict();
 function gs_group_messages_image() {
     var isPublic = true, shareWidget = null;
     jQuery('.gs-content-js-share').each(function() {
-        isPublic = Boolean(jQuery(this).attr('public'));
+        // == '1' is More likely to fail-safe
+        isPublic = jQuery(this).data('public') == '1';
         shareWidget = GSShareBox(this, isPublic);
         shareWidget.init();
     });

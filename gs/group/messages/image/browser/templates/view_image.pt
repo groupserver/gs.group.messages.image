@@ -108,7 +108,7 @@
                role="toolbar" aria-label="Image Actions">
             <a class="gs-content-js-share btn btn-small" role="button"
                aria-haspopup="true" data-icon="&#xe001;"
-               tal:attributes="public python:view.isPublic and 1 or 0;
+               tal:attributes="data-public python:view.isPublic and 1 or 0;
                                href string:${view/siteInfo/url}/r/img/${view/imageId};
                                title view/filename;">Share</a>
           </div><!--gs-group-messages-image-buttons-->
